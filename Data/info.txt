@@ -1,0 +1,3 @@
+Maps have to be Grayscale bmps or raw files.
+
+Use GIMP or Photoshop to create and edit maps
