@@ -126,23 +126,6 @@ void ReshapeGL (int width, int height, float depth)									// Reshape The Windo
 }
     
 
-GLvoid CalculateVectorNormal(GLfloat fVert1[], GLfloat fVert2[],
-                             GLfloat fVert3[], GLfloat fNormal[])
-{
-   GLfloat Qx, Qy, Qz, Px, Py, Pz;
-
-   Qx = fVert2[0]-fVert1[0];
-   Qy = fVert2[1]-fVert1[1];
-   Qz = fVert2[2]-fVert1[2];
-   Px = fVert3[0]-fVert1[0];
-   Py = fVert3[1]-fVert1[1];
-   Pz = fVert3[2]-fVert1[2];
-
-   fNormal[0] = Py*Qz - Pz*Qy;
-   fNormal[1] = Pz*Qx - Px*Qz;
-   fNormal[2] = Px*Qy - Py*Qx;
-
-}
 		
 
 

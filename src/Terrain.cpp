@@ -17,6 +17,7 @@
 #include "HMapReader.hpp"
 #include "LuaFuncs.h"
 #include "OpenGL.h"
+#include "VectorCalc.hpp"
 
 using namespace std;
 
@@ -56,7 +57,7 @@ bool zTerrain::Create(const char* Map)
    
    logTerrain << "Map Height: " << height << " Map Width: " << width << endl;
    
-   terrvertex *aterr = new(terrvertex[(height)*(width)*4]);
+   terrvertex *aterr = new terrvertex[(height)*(width)*4];
    
    if (aheightmap==NULL)
 	  return false;
@@ -95,57 +96,113 @@ bool zTerrain::Create(const char* Map)
 		vert2 = {(GLfloat)x-1, GetMapY(x-1,z  ), (GLfloat)z  };
 		vert3 = {(GLfloat)x-1, GetMapY(x-1,z-1), (GLfloat)z-1};
 		GLfloat norm1[3];
-		CalculateVectorNormal(vert1,vert2,vert3, norm1);
+		vec::CalculateVectorNormal(vert1,vert2,vert3, norm1);
 		
 		vert1 = {(GLfloat)x+1, GetMapY(x+1,z  ), (GLfloat)z  };
 		vert2 = {(GLfloat)x  , GetMapY(x  ,z  ), (GLfloat)z  };
 		vert3 = {(GLfloat)x  , GetMapY(x  ,z-1), (GLfloat)z-1};
 		GLfloat norm2[3];
-		CalculateVectorNormal(vert1,vert2,vert3, norm2);
+		vec::CalculateVectorNormal(vert1,vert2,vert3, norm2);
 		
 		vert1 = {(GLfloat)x+2, GetMapY(x+2,z  ), (GLfloat)z  };
 		vert2 = {(GLfloat)x+1, GetMapY(x+1,z  ), (GLfloat)z  };
 		vert3 = {(GLfloat)x+1, GetMapY(x+1,z-1), (GLfloat)z-1};
 		GLfloat norm3[3];
-		CalculateVectorNormal(vert1,vert2,vert3, norm3);
+		vec::CalculateVectorNormal(vert1,vert2,vert3, norm3);
 
 		vert1 = {(GLfloat)x+0, GetMapY(x+0,z+1), (GLfloat)z+1};
 		vert2 = {(GLfloat)x-1, GetMapY(x-1,z+1), (GLfloat)z+1};
 		vert3 = {(GLfloat)x-1, GetMapY(x-1,z+0), (GLfloat)z+0};
 		GLfloat norm4[3];
-		CalculateVectorNormal(vert1,vert2,vert3, norm4);
+		vec::CalculateVectorNormal(vert1,vert2,vert3, norm4);
 
 		vert1 = {(GLfloat)x+1, GetMapY(x+1,z+1), (GLfloat)z+1};//&(aterr[num+2].x);
 		vert2 = {(GLfloat)x  , GetMapY(x  ,z+1), (GLfloat)z+1};//&(aterr[num+2].x);
 		vert3 = {(GLfloat)x  , GetMapY(x  ,z  ), (GLfloat)z  };//&(aterr[num+2].x);
 		GLfloat norm5[3];
-		CalculateVectorNormal(vert1,vert2,vert3, norm5);
+		vec::CalculateVectorNormal(vert1,vert2,vert3, norm5);
 
 		vert1 = {(GLfloat)x+2, GetMapY(x+2,z+1), (GLfloat)z+1};
 		vert2 = {(GLfloat)x+1, GetMapY(x+1,z+1), (GLfloat)z+1};
 		vert3 = {(GLfloat)x+1, GetMapY(x+1,z+0), (GLfloat)z+0};
 		GLfloat norm6[3];
-		CalculateVectorNormal(vert1,vert2,vert3, norm6);
+		vec::CalculateVectorNormal(vert1,vert2,vert3, norm6);
 
 		vert1 = {(GLfloat)x+0, GetMapY(x+0,z+2), (GLfloat)z+2};
 		vert2 = {(GLfloat)x-1, GetMapY(x-1,z+2), (GLfloat)z+2};
 		vert3 = {(GLfloat)x-1, GetMapY(x-1,z+1), (GLfloat)z+1};
 		GLfloat norm7[3];
-		CalculateVectorNormal(vert1,vert2,vert3, norm7);
+		vec::CalculateVectorNormal(vert1,vert2,vert3, norm7);
 
 		vert1 = {(GLfloat)x+1, GetMapY(x+1,z+2), (GLfloat)z+2};
 		vert2 = {(GLfloat)x+0, GetMapY(x+0,z+2), (GLfloat)z+2};
 		vert3 = {(GLfloat)x+0, GetMapY(x+0,z+1), (GLfloat)z+1};
 		GLfloat norm8[3];
-		CalculateVectorNormal(vert1,vert2,vert3, norm8);
+		vec::CalculateVectorNormal(vert1,vert2,vert3, norm8);
 
 		vert1 = {(GLfloat)x+2, GetMapY(x+2,z+2), (GLfloat)z+2};
 		vert2 = {(GLfloat)x+1, GetMapY(x+1,z+2), (GLfloat)z+2};
 		vert3 = {(GLfloat)x+1, GetMapY(x+1,z+1), (GLfloat)z+1};
 		GLfloat norm9[3];
-		CalculateVectorNormal(vert1,vert2,vert3, norm9);
+		vec::CalculateVectorNormal(vert1,vert2,vert3, norm9);
+		logTerrain << norm9[0] << " " << norm9[1] << " " << norm9[2] << " " << sqrt(norm9[0]*norm9[0]+norm9[1]*norm9[1]+ norm9[2]*norm9[2]) << endl ;
+		/*
+		if(norm1[2] < 0)
+		{
+			norm1[0] = -norm1[0];
+			norm1[1] = -norm1[1];
+			norm1[2] = -norm1[2];
+		}
+		if(norm2[2] < 0)
+		{
+			norm1[0] = -norm1[0];
+			norm1[1] = -norm1[1];
+			norm1[2] = -norm1[2];
+		}
+		if(norm3[2] < 0)
+		{
+			norm1[0] = -norm1[0];
+			norm1[1] = -norm1[1];
+			norm1[2] = -norm1[2];
+		}
+		if(norm4[2] < 0)
+		{
+			norm1[0] = -norm1[0];
+			norm1[1] = -norm1[1];
+			norm1[2] = -norm1[2];
+		}
+		if(norm5[2] < 0)
+		{
+			norm1[0] = -norm1[0];
+			norm1[1] = -norm1[1];
+			norm1[2] = -norm1[2];
+		}
+		if(norm6[2] < 0)
+		{
+			norm1[0] = -norm1[0];
+			norm1[1] = -norm1[1];
+			norm1[2] = -norm1[2];
+		}
+		if(norm7[2] < 0)
+		{
+			norm1[0] = -norm1[0];
+			norm1[1] = -norm1[1];
+			norm1[2] = -norm1[2];
+		}
+		if(norm8[2] < 0)
+		{
+			norm1[0] = -norm1[0];
+			norm1[1] = -norm1[1];
+			norm1[2] = -norm1[2];
+		}
+		if(norm9[2] < 0)
+		{
+			norm1[0] = -norm1[0];
+			norm1[1] = -norm1[1];
+			norm1[2] = -norm1[2];
+		}
 
-
+		*/
 		aterr[num+0].normalVector[0] = (norm1[0] + norm2[0] + norm4[0] + norm5[0])/4.0f;
 		aterr[num+0].normalVector[1] = (norm1[1] + norm2[1] + norm4[1] + norm5[1])/4.0f;
 		aterr[num+0].normalVector[2] = (norm1[2] + norm2[2] + norm4[2] + norm5[2])/4.0f;
@@ -158,9 +215,9 @@ bool zTerrain::Create(const char* Map)
 		aterr[num+2].normalVector[1] = (norm6[1] + norm8[1] + norm9[1] + norm5[1])/4.0f;
 		aterr[num+2].normalVector[2] = (norm6[2] + norm8[2] + norm9[2] + norm5[2])/4.0f;
 		
-		aterr[num+2].normalVector[0] = (norm6[0] + norm2[0] + norm3[0] + norm5[0])/4.0f;
-		aterr[num+2].normalVector[1] = (norm6[1] + norm2[1] + norm3[1] + norm5[1])/4.0f;
-		aterr[num+2].normalVector[2] = (norm6[2] + norm2[2] + norm3[2] + norm5[2])/4.0f;
+		aterr[num+3].normalVector[0] = (norm6[0] + norm2[0] + norm3[0] + norm5[0])/4.0f;
+		aterr[num+3].normalVector[1] = (norm6[1] + norm2[1] + norm3[1] + norm5[1])/4.0f;
+		aterr[num+3].normalVector[2] = (norm6[2] + norm2[2] + norm3[2] + norm5[2])/4.0f;
 		
 
 		//GLfloat vert2=&(aterr[num+1].x);
@@ -181,19 +238,15 @@ bool zTerrain::Create(const char* Map)
 		//norm[1] = (aterr[num].normalVector[1] +aterr[(num-4)%numPoints].normalVector[1] +aterr[(num-width*4)%numPoints].normalVector[1] +aterr[(num-4-width*4)%numPoints].normalVector[1])/4.0;
 		//norm[2] = (aterr[num].normalVector[2] +aterr[(num-4)%numPoints].normalVector[2] +aterr[(num-width*4)%numPoints].normalVector[2] +aterr[(num-4-width*4)%numPoints].normalVector[2])/4.0;
 			
-		//CalculateVectorNormal(vert1,vert2, vert3, aterr[num].normalVector);
-		//CalculateVectorNormal(vert1,vert2, vert3, aterr[num+1].normalVector);
-		//CalculateVectorNormal(vert1,vert2, vert3, aterr[num+2].normalVector);
-		//CalculateVectorNormal(vert1,vert2, vert3, aterr[num+3].normalVector);
+		//vec::CalculateVectorNormal(vert1,vert2, vert3, aterr[num].normalVector);
+		//vec::CalculateVectorNormal(vert1,vert2, vert3, aterr[num+1].normalVector);
+		//vec::CalculateVectorNormal(vert1,vert2, vert3, aterr[num+2].normalVector);
+		//vec::CalculateVectorNormal(vert1,vert2, vert3, aterr[num+3].normalVector);
 		
 		num += 4;
 	  }
    }
    
-/*GLvoid CalculateVectorNormal(GLfloat fVert1[], GLfloat fVert2[],
-							 GLfloat fVert3[], GLfloat *fNormalX,
-							 GLfloat *fNormalY, GLfloat *fNormalZ);
-*/
    
    dispList=glGenLists(1);
    glNewList(dispList,GL_COMPILE);
@@ -207,7 +260,7 @@ bool zTerrain::Create(const char* Map)
 		//GLfloat *vert1=&(aterr[num].x);
 		//GLfloat *vert2=&(aterr[num+1].x);
 		//GLfloat *vert3=&(aterr[num+2].x);
-		//CalculateVectorNormal(vert1,vert2, vert3, aterr[num].normalVector);
+		//vec::CalculateVectorNormal(vert1,vert2, vert3, aterr[num].normalVector);
 
 		
 		for (int cnt=0; cnt<4; cnt++) {
@@ -239,15 +292,15 @@ bool zTerrain::Create(const char* Map)
 			GLfloat norm2[3];
 			GLfloat norm3[3];
 			GLfloat norm4[3];
-			CalculateVectorNormal(&(aterr[num+2].x),&(aterr[num+1].x), &(aterr[num].x), norm1);
-			CalculateVectorNormal(&(aterr[num+2].x),&(aterr[num+1].x), &(aterr[num].x), norm2);
-			CalculateVectorNormal(&(aterr[num+2].x),&(aterr[num+1].x), &(aterr[num].x), norm3);
-			CalculateVectorNormal(&(aterr[num+2].x),&(aterr[num+1].x), &(aterr[num].x), norm4);
-			//CalculateVectorNormal(&(aterr[(num-3)%numPoints].x),&(aterr[(num-2)%numPoints].x), &(aterr[(num-1)%numPoints].x), norm2);
-			//CalculateVectorNormal(&(aterr[(num-3)%numPoints].x),&(aterr[(num-2)%numPoints].x), &(aterr[(num-1)%numPoints].x), norm3);
-			//CalculateVectorNormal(&(aterr[(num-3)%numPoints].x),&(aterr[(num-2)%numPoints].x), &(aterr[(num-1)%numPoints].x), norm4);
-//			CalculateVectorNormal(&(aterr[(num-width*4)%numPoints].x),&(aterr[(num-width*4+1)%numPoints].x), &(aterr[(num-width*4+2)%numPoints].x), norm3);
-//			CalculateVectorNormal(&(aterr[(num-width*4-3)%numPoints].x),&(aterr[(num-width*4-2)%numPoints].x), &(aterr[(num-width*4-1)%numPoints].x), norm4);
+			vec::CalculateVectorNormal(&(aterr[num+2].x),&(aterr[num+1].x), &(aterr[num].x), norm1);
+			vec::CalculateVectorNormal(&(aterr[num+2].x),&(aterr[num+1].x), &(aterr[num].x), norm2);
+			vec::CalculateVectorNormal(&(aterr[num+2].x),&(aterr[num+1].x), &(aterr[num].x), norm3);
+			vec::CalculateVectorNormal(&(aterr[num+2].x),&(aterr[num+1].x), &(aterr[num].x), norm4);
+			//vec::CalculateVectorNormal(&(aterr[(num-3)%numPoints].x),&(aterr[(num-2)%numPoints].x), &(aterr[(num-1)%numPoints].x), norm2);
+			//vec::CalculateVectorNormal(&(aterr[(num-3)%numPoints].x),&(aterr[(num-2)%numPoints].x), &(aterr[(num-1)%numPoints].x), norm3);
+			//vec::CalculateVectorNormal(&(aterr[(num-3)%numPoints].x),&(aterr[(num-2)%numPoints].x), &(aterr[(num-1)%numPoints].x), norm4);
+//			vec::CalculateVectorNormal(&(aterr[(num-width*4)%numPoints].x),&(aterr[(num-width*4+1)%numPoints].x), &(aterr[(num-width*4+2)%numPoints].x), norm3);
+//			vec::CalculateVectorNormal(&(aterr[(num-width*4-3)%numPoints].x),&(aterr[(num-width*4-2)%numPoints].x), &(aterr[(num-width*4-1)%numPoints].x), norm4);
 			
 			aterr[num].normalVector[0] = (norm1[0]+norm2[0]+norm3[0]+norm4[0])/4.0;
 			aterr[num].normalVector[1] = (norm1[1]+norm2[1]+norm3[1]+norm4[1])/4.0;
@@ -287,7 +340,7 @@ bool zTerrain::Create(const char* Map)
 			particles.push_back( new Particle(motherWorld, this, numParts, x, y, z, 0.0f, texture));
 	   }
 	}
-   delete aterr;
+   delete[] aterr;
    aterr=NULL;   
    logTerrain.close();   
    return true;

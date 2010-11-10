@@ -8,7 +8,10 @@
 class vec
 {
 public:
-    static float getDistance(Pos *world, Pos *object);    
+    static GLfloat getDistance(const Pos &world, const Pos &object);    
+	static GLvoid  CalculateVectorNormal(GLfloat fVert1[], GLfloat fVert2[],
+                             GLfloat fVert3[], GLfloat fNormal[]);
+	static GLfloat scalarProduct(GLfloat fVert1[], GLfloat fVert2[]);
     
 };
 

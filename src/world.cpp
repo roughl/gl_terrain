@@ -419,7 +419,7 @@ void World::Draw(void)
 	glTranslatef (0.0f, 0.0f, -2.0f);	// Translate to Cam Pos
 	float size=4.0f;
 	glRotatef(89.0f, 0.0f, 1.0f, 0.0f);
-	    glBegin (GL_QUADS);
+	glBegin (GL_QUADS);
 	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, 0.0f);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, 0.0f);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, 0.0f);
@@ -430,12 +430,21 @@ void World::Draw(void)
 	glRotatef (angle.x, 1.0f, 0.0f, 0.0f);						// Rotate On The X-Axis By angle
 	glRotatef (angle.y, 0.0f, 1.0f, 0.0f);						// Rotate On The Y-Axis By angle
 	glRotatef (angle.z, 0.0f, 0.0f, 1.0f);						// Rotate On The Z-Axis By angle
-    float pos[4], amb[4], dif[4], spec[4];
-    pos[0]=0.0f;pos[1]=0.0f;pos[2]=1.0f;pos[3]=0.0f;
-    amb[0]=0.01f;amb[1]=0.01f;amb[2]=0.01f;amb[3]=1.0f;
-    dif[0]=0.5f; dif[1]=0.5f; dif[2]=0.5f; dif[3]=0.5f;
-    spec[0]=1.0f;spec[1]=1.0f;spec[2]=1.0f;spec[3]=1.0f;
+	static float speed =  0.01f;
+    static float pos[4] = {0.0f, 0.0f, 1.0f, 0.5f};
+	static float amb[4] = {0.01f, 0.01f, 0.01f, 1.0f};
+	static float dif[4] = {0.5f, 0.5f, 0.5f, 0.5f};
+	static float spec[4]= {1.0f, 1.0f, 1.0f, 1.0f};
     GL_SetLight(pos, amb, dif, spec);
+	pos[2]+=speed;
+	if(pos[2] >= 1.0f){
+		speed = -speed;
+		pos[2]=1.0f;
+	}
+	else if(pos[2] <= 0){
+		speed = -speed;///2.0f;
+		pos[2]=0;
+	}
 	glTranslatef (-this->pos.x, -this->pos.y, -this->pos.z);	// Translate to Cam Pos
 
 
