@@ -106,7 +106,6 @@ unsigned LoadTexture(const char *filename)
 }
 
 
-
 void ReshapeGL (int width, int height, float depth)									// Reshape The Window When It's Moved Or Resized
 {
 	glViewport (0, 0, (GLsizei)(width), (GLsizei)(height));				// Reset The Current Viewport
@@ -126,38 +125,15 @@ void ReshapeGL (int width, int height, float depth)									// Reshape The Windo
 }
     
 
-GLvoid CalculateVectorNormal(GLfloat fVert1[], GLfloat fVert2[],
-                             GLfloat fVert3[], GLfloat fNormal[])
-{
-   GLfloat Qx, Qy, Qz, Px, Py, Pz;
-
-   Qx = fVert2[0]-fVert1[0];
-   Qy = fVert2[1]-fVert1[1];
-   Qz = fVert2[2]-fVert1[2];
-   Px = fVert3[0]-fVert1[0];
-   Py = fVert3[1]-fVert1[1];
-   Pz = fVert3[2]-fVert1[2];
-
-   fNormal[0] = Py*Qz - Pz*Qy;
-   fNormal[1] = Pz*Qx - Px*Qz;
-   fNormal[2] = Px*Qy - Py*Qx;
-
-}
-		
-
-
-
 void GL_SetLight(float *Position, float *Ambient, float *Difuse, float *Specular)
 {
-    glEnable(GL_COLOR_MATERIAL);
-    glEnable(GL_LIGHTING);
-    glEnable(GL_LIGHT0);
     glLightfv(GL_LIGHT0,GL_POSITION,Position);
     glLightfv(GL_LIGHT0,GL_AMBIENT,Ambient);
     glLightfv(GL_LIGHT0,GL_DIFFUSE,Difuse);
     glLightfv(GL_LIGHT0,GL_SPECULAR,Specular);
 
 }
+
 
 bool InitializeGL ( )					// Any GL Init Code & User Initialiazation Goes Here
 {
@@ -181,16 +157,13 @@ bool InitializeGL ( )					// Any GL Init Code & User Initialiazation Goes Here
     glFogf(GL_FOG_DENSITY, 0.05f);				    // How Dense Will The Fog Be
     glHint(GL_FOG_HINT, GL_DONT_CARE);			    // Fog Hint Value
     glEnable(GL_FOG);					            // Enables GL_FOG
+    
+	// enable lighting
+	glEnable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_LIGHT0);
     glLoadIdentity ();											// Reset The Modelview Matrix
     //glTranslatef(64.0f, 30.0f, 64.0f);
-/*    float pos[4], amb[4], dif[4], spec[4];
-    pos[0]=0.0f;pos[1]=-1.0f;pos[2]=10.0f;pos[3]=0.0f;
-    amb[0]=0.01f;amb[1]=0.01f;amb[2]=0.01f;amb[3]=1.0f;
-    dif[0]=0.5f; dif[1]=0.5f; dif[2]=0.5f; dif[3]=0.5f;
-    spec[0]=1.0f;spec[1]=1.0f;spec[2]=1.0f;spec[3]=1.0f;
-    GL_SetLight(pos, amb, dif, spec);
-
-*/
 	return true;												// Return TRUE (Initialization Successful)
 }
 

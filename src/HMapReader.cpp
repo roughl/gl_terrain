@@ -12,15 +12,20 @@ using namespace std;
 
 
 Hmap::Hmap(const char *Map)
+:Data(0)
+,height(0)
+,width(0)
 {
    string FileName(Map);
    if(FileName.find(".bmp", 0)!=string::npos)
    {  
+   		cout << "ReadBMP()"<<endl;
         HMap_ReadBMP(Map);
    }
    else if (FileName.find(".raw", 0)!=string::npos)
    {
-        HMap_ReadRaw(Map, height);
+   		cout << "ReadRaw()"<<endl;
+        HMap_ReadRaw(Map, 128 ); // @TODO: calculate the size
    }
     
 }
