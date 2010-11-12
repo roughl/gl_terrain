@@ -91,14 +91,14 @@ int main(int argc, char *argv[]){
         i++;
         if(i>argc)
         {
-            cerr << "invalid Parameter for --config" << endl;
+            cerr << "no Parameter for --config" << endl;
             return 1;
         }
         ifstream configFile ( argv[i] , ifstream::in );
         // is it possible to open file for reading?
         if(configFile.fail())
         {
-            cerr << "invalid Parameter for --config" <<endl;
+            cerr << "failed to open config file " << argv[i] <<endl;
             return 1;
         }
         config.configFilename=argv[i];
@@ -187,6 +187,13 @@ int main(int argc, char *argv[]){
         return 1; 
     }
 
+  }
+  
+  cout << "Read specified config file" <<endl;
+  if(lua_LoadConfig(L, &config))
+  {
+        cout << "Error while initialising Lua" << endl;
+        terminate(1);
   }
   
   if(SDL_Init(SDL_INIT_VIDEO)<0)
