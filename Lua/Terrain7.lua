@@ -1,6 +1,6 @@
 -- Howdy! This sure is a comment!
 
-map ="Data/Map7.bmp"
+map ="Data/Map7b.bmp"
 
 zspeed= 0.1
 xspeed= 0.1
