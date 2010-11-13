@@ -170,6 +170,7 @@ bool zTerrain::Create(const char* Map)
    dispList=glGenLists(1);
    glNewList(dispList,GL_COMPILE);
 	glBegin (GL_QUADS);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	num=0;
 	srand(SDL_GetTicks());
 	
@@ -177,7 +178,7 @@ bool zTerrain::Create(const char* Map)
 	unsigned int numPoints=(height)*(width)*4;
 	for (int z=0; z < (height)*(width); z++) {
 		for (int cnt=0; cnt<4; cnt++) {
-			float red=0.0f, green=1.0f/**//*aterr[num].diffuse/**/, blue=0.0f;
+			GLfloat red=0.0f, green=1.0f/**//*aterr[num].diffuse/**/, blue=0.0f;
 			if( ((int)round(aterr[num].y*25.5f)) % 2)
 				red=0.5f;
 			if (aterr[num].y<waterlevel)
@@ -202,6 +203,7 @@ bool zTerrain::Create(const char* Map)
 
 	}
 	glEnd ();	
+	// draw normals
 	/*glBegin(GL_LINES);
 	glColor4f(1.0,1.0,1.0,1.0f);
 	glLineWidth(3);
