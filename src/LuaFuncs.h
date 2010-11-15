@@ -7,7 +7,7 @@
 
 #include <lua.hpp>
 #include "main.h"
-lua_State *init_lua(const char *InitScript);
+bool init_lua(lua_State *L, const char *InitScript);
 int lua_LoadConfig (lua_State *L, Config *config);
 const char *lua_GetString(lua_State *L, const char *name);
 double lua_GetNumber(lua_State *L, const char *name);

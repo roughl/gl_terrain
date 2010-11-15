@@ -3,28 +3,22 @@
 #include <lua.hpp>
 #include "LuaFuncs.h"
 #include "main.h"
-lua_State *init_lua(const char *InitScript)
+bool init_lua(lua_State *L, const char *InitScript)
 {
-  lua_State *L = lua_open();  /* create state */
-  if (L != NULL)
-  {
-        printf("\nLua State erstellt\n");
-       luaL_openlibs(L);
-       printf("luaL_Loadfile(L, %s)", InitScript);
-       int s = luaL_loadfile(L, InitScript); 
-       if ( s==0 )
-       {
-        printf("execute Lua script\n");
-        // execute Lua program or script
-        s = lua_pcall(L, 0, LUA_MULTRET, 0);
-
-       }
-       else
-       {
-        printf("ERROR: %s nicht gefunden\n", InitScript);
-       }
-  }  
-  return L;  
+	printf("luaL_Loadfile(L, %s)", InitScript);
+	int s = luaL_loadfile(L, InitScript); 
+	if ( s==0 )
+	{
+		printf("execute Lua script\n");
+		// execute Lua program or script
+		s = lua_pcall(L, 0, LUA_MULTRET, 0);
+		return true;
+	}
+	else
+	{
+		printf("ERROR: %s nicht gefunden\n", InitScript);
+		return false;
+	}
 }
 
 
@@ -82,10 +76,6 @@ int lua_GetGlobal(lua_State *L, const char *name, int type, void *destination)
 int lua_LoadConfig (lua_State *L, Config *config)
 {
     int state=0;
-    
-
-
-
     
     lua_getglobal(L, "width"); /* load global variable width in stack*/
     if (!lua_isnumber(L, -1))

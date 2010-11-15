@@ -65,13 +65,17 @@ int main(int argc, char *argv[]){
     }
   }
 
-  cout << "Read default ConfigFile" <<endl;
-  lua_State *L = init_lua(config.configFilename);
-  if(lua_LoadConfig(L, &config))
+  lua_State *L = lua_open();
+  if( L == NULL )
   {
-        cout << "Error while initialising Lua" << endl;
-        terminate(1);
+  	cout << "Couldn't create lua_State" << endl;
+	terminate(1);
   }
+  cout << "Lua state created" << endl;
+  luaL_openlibs(L);
+
+  cout << "Read default ConfigFile" <<endl;
+  init_lua(L, config.configFilename);
   
   cout << "Reading command Line Options" <<endl;
   for(int i=1; i<argc; i++)
@@ -190,6 +194,12 @@ int main(int argc, char *argv[]){
   }
   
   cout << "Read specified config file" <<endl;
+  if( !init_lua(L, config.configFilename) )
+  {
+  	cout << "Warning: reading config file " << config.configFilename << " failed" << endl;
+  }
+
+  cout << "Applying configuration" <<endl;
   if(lua_LoadConfig(L, &config))
   {
         cout << "Error while initialising Lua" << endl;
