@@ -89,7 +89,7 @@ int main(int argc, char *argv[]){
     else if(arg.compare("--config")==0)
     {
         i++;
-        if(i>argc)
+        if(i>=argc)
         {
             cerr << "no Parameter for --config" << endl;
             return 1;
