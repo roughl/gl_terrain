@@ -62,39 +62,71 @@ Uint8 Cube::Create(float posx, float posy, float posz, float newsize=2.0f)
     else
         dispList=glGenLists(1);
     glNewList(dispList,GL_COMPILE);
+    glDisable(GL_CULL_FACE);
 
     glBegin (GL_QUADS);
     // Button
+	GLfloat vert1[] = {-size, -size, -size };
+	GLfloat vert2[] = { size, -size, -size };
+	GLfloat vert3[] = { size, -size,  size };
+	GLfloat norm[3];
+	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
+	glNormal3fv(norm);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
     
     // Top
+	vert1 = {-size,  size, -size };
+	vert2 = { size,  size, -size };
+	vert3 = { size,  size,  size };
+	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
+	glNormal3fv(norm);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size,  size);
     
     // Side
+	vert1 = {-size, -size, -size };
+	vert2 = { size, -size, -size };
+	vert3 = { size,  size, -size };
+	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
+	glNormal3fv(norm);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
     
     // Side
+	vert1 = { size, -size, -size };
+	vert2 = { size, -size,  size };
+	vert3 = { size,  size,  size };
+	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
+	glNormal3fv(norm);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
     
     // Side
+	vert1 = { size, -size,  size };
+	vert2 = {-size, -size,  size };
+	vert3 = {-size,  size,  size };
+	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
+	glNormal3fv(norm);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size,  size);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
     
     // Side
+	vert1 = {-size, -size,  size };
+	vert2 = {-size, -size, -size };
+	vert3 = {-size,  size, -size };
+	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
+	glNormal3fv(norm);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
     glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
     glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
@@ -102,7 +134,7 @@ Uint8 Cube::Create(float posx, float posy, float posz, float newsize=2.0f)
     
 
     glEnd ();    
-    //glEnable(GL_CULL_FACE);
+    glEnable(GL_CULL_FACE);
    glEndList();
 }
 
