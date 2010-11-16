@@ -183,6 +183,9 @@ bool zTerrain::Create(const char* Map)
 				red=0.5f;
 			if (aterr[num].y<waterlevel)
 			{
+				GLfloat specReflection[] = {0.8f, 0.8f, 0.8f, 1.0f};
+				glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection);
+				glMateriali(GL_FRONT, GL_SHININESS, 96);
 				blue=aterr[num].y* (-1.0)/waterlevel + 1.0f;
 				green=1.0f-blue;
 				// Good Place for Particle??
@@ -194,6 +197,12 @@ bool zTerrain::Create(const char* Map)
 					red+=0.1f;
 				else;
 					//red-=0.1f;
+			}
+			else
+			{
+				GLfloat specReflection[] = {0.0f, 0.0f, 0.0f, 1.0f};
+				glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection);
+				glMateriali(GL_FRONT, GL_SHININESS, 0);
 			}
 			glNormal3fv(aterr[num].normalVector);
 			glColor4f (red, green, blue, 1.0f);
