@@ -22,39 +22,6 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o "gl_terrain" -Dmain=SDL_main $(CXXFLAGS)
 
-src/main.o: src/main.c
-	$(CPP) -c src/main.c -o src/main.o $(CXXFLAGS)
-
-src/OpenGL.o: src/OpenGL.c
-	$(CPP) -c src/OpenGL.c -o src/OpenGL.o $(CXXFLAGS)
-
-src/Terrain.o: src/Terrain.cpp
-	$(CPP) -c src/Terrain.cpp -o src/Terrain.o $(CXXFLAGS)
-
-src/HMapReader.o: src/HMapReader.cpp
-	$(CPP) -c src/HMapReader.cpp -o src/HMapReader.o $(CXXFLAGS)
-
-src/LuaFuncs.o: src/LuaFuncs.c
-	$(CPP) -c src/LuaFuncs.c -o src/LuaFuncs.o $(CXXFLAGS)
-
-src/Cube.o: src/Cube.cpp
-	$(CPP) -c src/Cube.cpp -o src/Cube.o $(CXXFLAGS)
-
-src/world.o: src/world.cpp
-	$(CPP) -c src/world.cpp -o src/world.o $(CXXFLAGS)
-
-src/Object.o: src/Object.cpp
-	$(CPP) -c src/Object.cpp -o src/Object.o $(CXXFLAGS)
-
-src/Particle.o: src/Particle.cpp
-	$(CPP) -c src/Particle.cpp -o src/Particle.o $(CXXFLAGS)
-
-src/Config.o: src/Config.cpp
-	$(CPP) -c src/Config.cpp -o src/Config.o $(CXXFLAGS)
-
-src/VectorCalc.o: src/VectorCalc.cpp
-	$(CPP) -c src/VectorCalc.cpp -o src/VectorCalc.o $(CXXFLAGS)
-
-src/sphere.o: src/sphere.cpp
-	$(CPP) -c src/sphere.cpp -o src/sphere.o $(CXXFLAGS)
+%.o: %.cpp
+	$(CPP) -c $(CXXFLAGS) $< -o $@
 
