@@ -431,7 +431,7 @@ void World::Draw(void)
 	glRotatef (angle.y, 0.0f, 1.0f, 0.0f);						// Rotate On The Y-Axis By angle
 	glRotatef (angle.z, 0.0f, 0.0f, 1.0f);						// Rotate On The Z-Axis By angle
 	static float speed =  0.01f;
-    static float pos[4] = {0.0f, 0.0f, 1.0f, 0.5f};
+    static float pos[4] = {1.0f, 1.0f, 1.0f, 0.5f};
 	static float amb[4] = {0.01f, 0.01f, 0.01f, 1.0f};
 	static float dif[4] = {0.5f, 0.5f, 0.5f, 0.5f};
 	static float spec[4]= {1.0f, 1.0f, 1.0f, 1.0f};
