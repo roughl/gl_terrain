@@ -430,8 +430,10 @@ void World::Draw(void)
 	glRotatef (angle.x, 1.0f, 0.0f, 0.0f);						// Rotate On The X-Axis By angle
 	glRotatef (angle.y, 0.0f, 1.0f, 0.0f);						// Rotate On The Y-Axis By angle
 	glRotatef (angle.z, 0.0f, 0.0f, 1.0f);						// Rotate On The Z-Axis By angle
+	glTranslatef (-this->pos.x, -this->pos.y, -this->pos.z);	// Translate to Cam Pos
+	
 	static float speed =  0.01f;
-    static float pos[4] = {1.0f, 1.0f, 1.0f, 0.5f};
+    static float pos[4] = {(float)terrain[0]->GetWidth(), 10.0f, (float)terrain[0]->GetHeight(), 0.5f};
 	static float amb[4] = {0.01f, 0.01f, 0.01f, 1.0f};
 	static float dif[4] = {0.5f, 0.5f, 0.5f, 0.5f};
 	static float spec[4]= {1.0f, 1.0f, 1.0f, 1.0f};
@@ -445,7 +447,6 @@ void World::Draw(void)
 		speed = -speed;///2.0f;
 		pos[2]=0;
 	}
-	glTranslatef (-this->pos.x, -this->pos.y, -this->pos.z);	// Translate to Cam Pos
 
 
     DrawChildren();
