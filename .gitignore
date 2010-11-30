@@ -1,2 +1,4 @@
 *.o
 *.log
+gl_terrain
+Lua/myconfig.lua
