@@ -21,8 +21,4 @@ private:
 };
 
     
-
-
-
-
 #endif // __CUBE_HPP

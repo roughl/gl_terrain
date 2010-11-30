@@ -24,7 +24,7 @@ class terrvertex
 
 #define ind(x, z, sizeofx) ((x) + ((z) * (sizeofx))) 
 
-class zTerrain
+class zTerrain 
 {
 public:
 	zTerrain(lua_State *L, World *world);
@@ -64,7 +64,5 @@ private:
 	GLuint dispList;
 }; 
 
-
-
-
 #endif // __TERAIN_HPP
+

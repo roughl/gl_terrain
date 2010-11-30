@@ -1,11 +1,12 @@
-// Object.hppp
+// Object.hpp
 
 #ifndef __IOBJECT_HPP
 #define __IOBJECT_HPP
 
-#include "World.hpp"
 #include <GL/gl.h>
 #include <SDL/SDL.h>
+
+class World;
 
 struct Angle
 {

@@ -136,8 +136,8 @@ void Part::Update(Uint32 milliseconds)
 	{
 	    life=1.0f;				                                // Give It New Life
 	   fade=( (float)rand()/(float)RAND_MAX +0.01f)/100.0f;		// Random Fade Speed
-		xpos=0.0f;//(float)rand()/(RAND_MAX)-0.5f;				// Random On X Axis
-		zpos=0.0f;//(float)rand()/(RAND_MAX)-0.5f;				// Center On Z Axis
+		xpos=(float)rand()/(RAND_MAX)-0.5f;				// Random On X Axis
+		zpos=(float)rand()/(RAND_MAX)-0.5f;				// Center On Z Axis
 		ypos=partGroup->getGround(xpos,zpos)-0.2f;				// Put on Ground
         xspeed=((float)rand()/(RAND_MAX) -0.5f) /75.0f;		   // Random Speed On X Axis
         yspeed=((float)rand()/(RAND_MAX) +0.1f) /50.0f;		       // Random Speed On Y Axis
@@ -200,9 +200,9 @@ Particle::Particle(World *world, zTerrain *terrain, Uint16 num, float x, float y
     motherTerrain(terrain)
 {
     this->motherWorld=world;
-    posx=x;
-    posy=y;
-    posz=z;
+    pos.x=x;
+    pos.y=y;
+    pos.z=z;
     for(int cnt=0; cnt<num; cnt++)
     {
         Parts.push_back(new Part(this));
@@ -216,9 +216,9 @@ Particle::Particle(World *world, zTerrain *terrain, Uint16 num):
     motherTerrain(terrain)
 {
     this->motherWorld=world;
-    posx=64.0f;
-    posy=0.5f;
-    posz=64.0f;
+    pos.x=64.0f;
+    pos.y=0.5f;
+    pos.z=64.0f;
     for(int cnt=0; cnt<num; cnt++)
     {
         Parts.push_back(new Part(this));
@@ -232,11 +232,11 @@ Particle::Particle(World *world, zTerrain *terrain, Uint16 num, float x, float y
 {
     this->motherWorld=world;
     this->motherTerrain=terrain;
-    posx=x;
-    posy=y;
-    posz=z;
+    pos.x=x;
+    pos.y=y;
+    pos.z=z;
     this->texture=texture;
-    this->angley=angley;
+    this->angle.y=angley;
     for(int cnt=0; cnt<num; cnt++)
     {
         Parts.push_back(new Part(this, Part::colorsBlue));
@@ -269,13 +269,13 @@ void Particle::Update(Uint32 milliseconds, Uint8 *keystate)
 
 void Particle::Draw( )
 {
-    //cout << "draw Particles at " << posx << " / " << posy << " / " << posz << endl;
+    //cout << "draw Particles at " << pos.x << " / " << posy << " / " << posz << endl;
     glPushMatrix();
-	glTranslatef (posx, posy, posz);							// Translate to Particle Position
+	glTranslatef (pos.x, pos.y, pos.z);							// Translate to Particle Position
 	
-    glRotatef (anglex, 1.0f, 0.0f, 0.0f);						// Rotate On The X-Axis By angle
-	glRotatef (angley, 0.0f, 1.0f, 0.0f);						// Rotate On The Y-Axis By angle
-	glRotatef (anglez, 0.0f, 0.0f, 1.0f);						// Rotate On The Z-Axis By angle
+    glRotatef (angle.x, 1.0f, 0.0f, 0.0f);						// Rotate On The X-Axis By angle
+	glRotatef (angle.y, 0.0f, 1.0f, 0.0f);						// Rotate On The Y-Axis By angle
+	glRotatef (angle.z, 0.0f, 0.0f, 1.0f);						// Rotate On The Z-Axis By angle
    
 
 
@@ -286,7 +286,8 @@ void Particle::Draw( )
     
 	glEnable(GL_BLEND);							                 // Enable Blending
     glBlendFunc(GL_SRC_ALPHA, GL_ONE);					         // Type Of Blending To Perform
-//	glDisable(GL_DEPTH_TEST);
+    //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);					         // Type Of Blending To Perform
+	//glDisable(GL_DEPTH_TEST);
     //glBlendFunc(GL_DST_COLOR,GL_ZERO);
     //glEnable(GL_POINT_SMOOTH);                                 // Enable Nice looking points
     //glBlendFunc(GL_ONE_MINUS_DST_ALPHA,GL_DST_ALPHA);  
@@ -309,7 +310,7 @@ void Particle::Draw( )
     glDisable(GL_TEXTURE_2D);  
     glDisable(GL_ALPHA_TEST);
     glDisable(GL_BLEND);
-   // glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_DEPTH_TEST);
    // glBlendFunc(GL_ONE_MINUS_DST_ALPHA,GL_DST_ALPHA);					         // Type Of Blending To Perform   
     glPopMatrix();
 }
@@ -317,13 +318,13 @@ void Particle::Draw( )
 
 void Particle::Draw(float anglex, float angley, float anglez)
 {
-    //cout << "draw Particles at " << posx << " / " << posy << " / " << posz << endl;
+    //cout << "draw Particles at " << pos.x << " / " << posy << " / " << posz << endl;
     glPushMatrix();
-	glTranslatef (posx, posy, posz);							// Translate to Particle Position
+	glTranslatef (pos.x, pos.y, pos.z);							// Translate to Particle Position
 	
-    glRotatef (anglex, 1.0f, 0.0f, 0.0f);						// Rotate On The X-Axis By angle
-	glRotatef (angley, 0.0f, 1.0f, 0.0f);						// Rotate On The Y-Axis By angle
-	glRotatef (anglez, 0.0f, 0.0f, 1.0f);						// Rotate On The Z-Axis By angle
+    glRotatef (angle.x, 1.0f, 0.0f, 0.0f);						// Rotate On The X-Axis By angle
+	glRotatef (angle.y, 0.0f, 1.0f, 0.0f);						// Rotate On The Y-Axis By angle
+	glRotatef (angle.z, 0.0f, 0.0f, 1.0f);						// Rotate On The Z-Axis By angle
    
 
 
@@ -360,5 +361,5 @@ void Particle::Draw(float anglex, float angley, float anglez)
 
 float Particle::getGround(float x, float z)
 {
-    return motherTerrain->GetMapY(x+posx, z+posz);
+    return motherTerrain->GetMapY(x+pos.x, z+pos.z);
 }

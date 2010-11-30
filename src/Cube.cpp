@@ -9,41 +9,21 @@
 #include "VectorCalc.hpp"
 #include "World.hpp"
 
-Cube::Cube()
+Cube::Cube():
+	Object(),
+	speedx(0.0f),
+	speedy(0.0f),
+	speedz(0.0f),
+	size(0)
 {
-   posx=3.0f;
-   posy=2.0f;
-   posz=16.0f;
-   
-   anglex=0.0f;
-   angley=0.0f;
-   anglez=0.0f;
-
-   
-   dispList=0;
-
+	dispList=0;
 }
 
-/*
-Cube::Cube(lua_State *L)
-{
-   Object::L=L;
-   
-   posx=3.0f;
-   posy=2.0f;
-   posz=16.0f;
-   
-   anglex=0.0f;
-   angley=0.0f;
-   anglez=0.0f;
-
-   dispList=0;
-   
-}*/
 Cube::Cube(World *world):
-    speedx(0.0f),
-    speedy(0.0f),
-    speedz(0.0f)
+	speedx(0.0f),
+	speedy(0.0f),
+	speedz(0.0f),
+	size(0)
 {
 }
 
@@ -51,9 +31,9 @@ Cube::Cube(World *world):
 Uint8 Cube::Create(float posx, float posy, float posz, float newsize=2.0f)
 {
     this->size=newsize;
-    this->posx=posx;
-    this->posy=posy;
-    this->posz=posz;
+    this->pos.x=posx;
+    this->pos.y=posy;
+    this->pos.z=posz;
 
     
     // --- if you just want to change cube the old one will be overwritten ---
@@ -143,22 +123,22 @@ void Cube::Update(Uint32 milliseconds, Uint8 *keystate)
     #ifdef __DEBUG__
     std::cout << "Updateing Cube\n";
     #endif
-    anglex+=milliseconds*0.2f;
-    angley+=milliseconds*0.1f;
+    angle.x+=milliseconds*0.2f;
+    angle.y+=milliseconds*0.1f;
     
-    if(anglex>360.0f)
-        anglex=anglex-360.0f;
+    if(angle.x>360.0f)
+        angle.x=angle.x-360.0f;
         
-    if(angley>360.0f)
-        angley=angley-360.0f;
+    if(angle.y>360.0f)
+        angle.y=angle.y-360.0f;
         
     // calculate distance to viewer
     // sqrt((-camx+partx)^2+(-camz+partz)^2)
     float distance;
     Pos mypos;
-    mypos.x=posx;
-    mypos.y=posy;
-    mypos.z=posz;
+    mypos.x=pos.x;
+    mypos.y=pos.y;
+    mypos.z=pos.z;
     Pos worldpos;
     #ifdef __DEBUG__
     std::cout << "GetCamPos\n";

@@ -22,6 +22,6 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o "gl_terrain" -Dmain=SDL_main $(CXXFLAGS)
 
-%.o: %.cpp
+%.o: %.cpp %.hpp
 	$(CPP) -c $(CXXFLAGS) $< -o $@
 

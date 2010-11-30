@@ -7,9 +7,11 @@
 #include <GL/gl.h>
 #include <SDL/SDL.h>
 
+#include "IObject.hpp"
+
 class World;
 
-class Object
+class Object : public IObject
 {
 public:
     Object();
@@ -17,20 +19,13 @@ public:
     virtual void Draw(); // Do Render
     virtual void Update(Uint32 milliseconds, Uint8 *keystate){} // per default do not any update
     
-  //  static GLuint CreateCube();
-    
-    float getPosX(){return posx;}
-    float getPosY(){return posy;}
-    float getPosZ(){return posz;}
-    
-    float getAngleX(){return anglex;}
-    float getAngleY(){return angley;}
-    float getAngleZ(){return anglez;}
+  	const Pos &getPos(){return pos;}
+  	const Angle &getAngle(){return angle;}
     
 protected:
     bool visible;
-    float posx, posy, posz;
-    float anglex, angley, anglez;
+	Pos pos;
+	Angle angle;
     GLuint dispList;
     World *motherWorld;
 };

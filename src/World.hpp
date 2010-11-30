@@ -55,10 +55,10 @@ private:
    lua_State *L;
    std::vector<Hmap *> hmap; // an array of maps
    std::vector<zTerrain *>terrain;
-   std::vector<Object *> objects; // array of objects
-   std::vector<Cube *> cubes; // array of cubes
+   std::vector<IObject *> objects; // array of objects
+//   std::vector<Cube *> cubes; // array of cubes
    std::vector<Particle *> particles; // array of particles
-   std::vector<Sphere *> spheres; // array of particles
+//   std::vector<Sphere *> spheres; // array of particles
    
    Angle angle;
    Pos oldpos;

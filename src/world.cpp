@@ -66,11 +66,6 @@ World::~World()
         delete objects[objects.size()-1];
         objects.pop_back();
     }
-    for(;cubes.size();)
-    {
-        delete cubes[cubes.size()-1];
-        cubes.pop_back();
-    }
     for(;particles.size();)
     {
         delete particles[particles.size()-1];
@@ -129,21 +124,23 @@ void World::Update (SDL_KeyboardEvent *keyevent)
 
             cout << "creating cube at " << x << " / " << y << " / ";
             cout << z << " with size " << size << endl;
+
+			Cube *cub = new Cube();
+			cub->Create(x,y,z,size);
             
-            cubes.push_back( new Cube() );
-            cubes.back()->Create(x,y,z,size);
+            objects.push_back( cub );
             /*
-            spheres.push_back( new Sphere(this) );
+            objects.push_back( new Sphere(this) );
             spheres.back()->Create(x,y,z,size);*/
         }
         break;
     case SDLK_KP_MINUS: 
         if(keyevent->type==SDL_KEYUP)
         {
-            if(cubes.size())
+            if(objects.size())
             {
-                delete cubes.back();
-                cubes.pop_back();
+                delete objects.back();
+                objects.pop_back();
             }
         }
         break;
@@ -240,10 +237,10 @@ void World::Update (Uint32  milliseconds, Uint8 *keystate)								// Perform Mot
         pos.z=+64.0f;
     }
 
-    vector<Cube *>::iterator cub;
-    for(cub=cubes.begin(); cub<cubes.end(); cub++)
+    vector<IObject *>::iterator obj;
+    for(obj=objects.begin(); obj<objects.end(); obj++)
     {
-        (*cub)->Update(milliseconds, keystate);
+        (*obj)->Update(milliseconds, keystate);
     }
     std::vector<Particle *>::iterator partsit;
     for(partsit=particles.begin(); partsit<particles.end(); partsit++)
@@ -371,22 +368,6 @@ void World::DrawChildren(void)
     {
         (*terrainIt)->Draw();
     }
-    vector<Sphere *>::iterator sphere;
-    for(sphere=spheres.begin(); sphere<spheres.end(); sphere++)
-    {
-        (*sphere)->Draw();
-    }
-        
-    vector<Cube *>::iterator cub;
-    for(cub=cubes.begin(); cub<cubes.end(); cub++)
-    {
-      /*  Pos cubpos;
-        cubpos.x=(*cub)->getPosX();
-        cubpos.y=(*cub)->getPosY();
-        cubpos.z=(*cub)->getPosZ();
-        if(vec::getDistance(&pos, &cubpos)<=this->GetDepth())*/
-            (*cub)->Draw();
-    }
     
     std::vector<Particle *>::iterator partsIt;
     for(partsIt=particles.begin(); partsIt<particles.end(); partsIt++)
@@ -394,7 +375,7 @@ void World::DrawChildren(void)
         (*partsIt)->Draw();
     }
     
-    vector<Object *>::iterator it;
+    vector<IObject *>::iterator it;
     for(it=objects.begin(); it<objects.end(); it++)
     {
         (*it)->Draw();
@@ -432,21 +413,24 @@ void World::Draw(void)
 	glRotatef (angle.z, 0.0f, 0.0f, 1.0f);						// Rotate On The Z-Axis By angle
 	glTranslatef (-this->pos.x, -this->pos.y, -this->pos.z);	// Translate to Cam Pos
 	
-	static float speed =  0.01f;
-    static float pos[4] = {(float)terrain[0]->GetWidth(), 10.0f, (float)terrain[0]->GetHeight(), 0.5f};
+    static Cube mycube;
+	static float speed =  0.10f;
+    static float pos[4] = {(float)terrain[0]->GetWidth()/2, 10.0f, (float)terrain[0]->GetHeight()/2, 0.5f};
 	static float amb[4] = {0.01f, 0.01f, 0.01f, 1.0f};
-	static float dif[4] = {0.5f, 0.5f, 0.5f, 0.5f};
+	static float dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
 	static float spec[4]= {1.0f, 1.0f, 1.0f, 1.0f};
     GL_SetLight(pos, amb, dif, spec);
-	pos[2]+=speed;
-	if(pos[2] >= 1.0f){
+    mycube.Create(pos[0],pos[1],pos[2],1.0f);
+	pos[1]+=speed;
+	if(pos[1] >= 20.0f){
 		speed = -speed;
-		pos[2]=1.0f;
+		pos[1]=20.0f;
 	}
-	else if(pos[2] <= 0){
+	else if(pos[1] <= 0){
 		speed = -speed;///2.0f;
-		pos[2]=0;
+		pos[1]=0;
 	}
+	mycube.Draw();
 
 
     DrawChildren();
@@ -512,7 +496,7 @@ void World::Draw(void)
 float World::GetDepth()
 {
     cout << "Getting depth\n";
-    cout << "terrain[0]->GetWidth" << terrain[0]->GetWidth();
+    cout << "terrain[0]->GetWidth() = " << terrain[0]->GetWidth() << endl;
     if(terrain[0]->GetWidth()>terrain[0]->GetHeight())
     {
         cout << ((float)terrain[0]->GetWidth()/2.0f)-2.0f;
