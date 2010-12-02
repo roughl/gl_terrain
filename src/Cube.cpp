@@ -30,136 +30,134 @@ Cube::Cube(World *world):
 
 Uint8 Cube::Create(float posx, float posy, float posz, float newsize=2.0f)
 {
-    this->size=newsize;
-    this->pos.x=posx;
-    this->pos.y=posy;
-    this->pos.z=posz;
+	this->size=newsize;
+	this->pos.x=posx;
+	this->pos.y=posy;
+	this->pos.z=posz;
 
-    
-    // --- if you just want to change cube the old one will be overwritten ---
-    if(glIsList(dispList))
-        glDeleteLists(dispList,1);
-    else
-        dispList=glGenLists(1);
-    glNewList(dispList,GL_COMPILE);
-    glDisable(GL_CULL_FACE);
+	
+	// --- if you just want to change cube the old one will be overwritten ---
+	if(glIsList(dispList))
+		glDeleteLists(dispList,1);
+	else
+		dispList=glGenLists(1);
+	glNewList(dispList,GL_COMPILE);
+	glDisable(GL_CULL_FACE);
 
-    glBegin (GL_QUADS);
-    // Button
+	glBegin (GL_QUADS);
+	// Button
 	GLfloat vert1[] = {-size, -size, -size };
 	GLfloat vert2[] = { size, -size, -size };
 	GLfloat vert3[] = { size, -size,  size };
 	GLfloat norm[3];
 	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
 	glNormal3fv(norm);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
-    
-    // Top
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
+	
+	// Top
 	vert1 = {-size,  size, -size };
 	vert2 = { size,  size, -size };
 	vert3 = { size,  size,  size };
 	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
 	glNormal3fv(norm);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size,  size);
-    
-    // Side
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size,  size);
+	
+	// Side
 	vert1 = {-size, -size, -size };
 	vert2 = { size, -size, -size };
 	vert3 = { size,  size, -size };
 	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
 	glNormal3fv(norm);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
-    
-    // Side
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
+	
+	// Side
 	vert1 = { size, -size, -size };
 	vert2 = { size, -size,  size };
 	vert3 = { size,  size,  size };
 	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
 	glNormal3fv(norm);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
-    
-    // Side
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
+	
+	// Side
 	vert1 = { size, -size,  size };
 	vert2 = {-size, -size,  size };
 	vert3 = {-size,  size,  size };
 	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
 	glNormal3fv(norm);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size,  size);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
-    
-    // Side
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size,  size);
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
+	
+	// Side
 	vert1 = {-size, -size,  size };
 	vert2 = {-size, -size, -size };
 	vert3 = {-size,  size, -size };
 	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
 	glNormal3fv(norm);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
-    glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
-    glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size,  size);
-    
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
+	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
+	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size,  size);
+	
 
-    glEnd ();    
-    glEnable(GL_CULL_FACE);
-   glEndList();
+	glEnd ();    
+	glEnable(GL_CULL_FACE);
+	glEndList();
 }
 
 void Cube::Update(Uint32 milliseconds, Uint8 *keystate)
 {
-    #ifdef __DEBUG__
-    std::cout << "Updateing Cube\n";
-    #endif
-    angle.x+=milliseconds*0.2f;
-    angle.y+=milliseconds*0.1f;
-    
-    if(angle.x>360.0f)
-        angle.x=angle.x-360.0f;
-        
-    if(angle.y>360.0f)
-        angle.y=angle.y-360.0f;
-        
-    // calculate distance to viewer
-    // sqrt((-camx+partx)^2+(-camz+partz)^2)
-    float distance;
-    Pos mypos;
-    mypos.x=pos.x;
-    mypos.y=pos.y;
-    mypos.z=pos.z;
-    Pos worldpos;
-    #ifdef __DEBUG__
-    std::cout << "GetCamPos\n";
-    motherWorld->GetCamPos(&worldpos);
-    std::cout << "getDistance\n";
-    distance=vec::getDistance(&worldpos, &mypos);
-    #endif
-    /*
-    if(distance-size > (float)motherWorld->GetDepth())
-    {
-        visible=false;
-        std::cout << "Cube is not visible\n";
-    }
-    else
-    {
-        visible=true;
-        std::cout << "Cube is visible\n";
-    }
-        */
-    
+	#ifdef __DEBUG__
+	std::cout << "Updateing Cube\n";
+	#endif
+	angle.x+=milliseconds*0.2f;
+	angle.y+=milliseconds*0.1f;
+	
+	if(angle.x>360.0f)
+		angle.x=angle.x-360.0f;
+		
+	if(angle.y>360.0f)
+		angle.y=angle.y-360.0f;
+		
+	// calculate distance to viewer
+	// sqrt((-camx+partx)^2+(-camz+partz)^2)
+	float distance;
+	Pos mypos;
+	mypos.x=pos.x;
+	mypos.y=pos.y;
+	mypos.z=pos.z;
+	Pos worldpos;
+	#ifdef __DEBUG__
+	std::cout << "GetCamPos\n";
+	motherWorld->GetCamPos(&worldpos);
+	std::cout << "getDistance\n";
+	distance=vec::getDistance(&worldpos, &mypos);
+	#endif
+	/*
+	if(distance-size > (float)motherWorld->GetDepth())
+	{
+		visible=false;
+		std::cout << "Cube is not visible\n";
+	}
+	else
+	{
+		visible=true;
+		std::cout << "Cube is visible\n";
+	}
+		*/
+	
 }
-
-
 
