@@ -3,13 +3,11 @@
 #ifndef __CUBE_HPP
 #define __CUBE_HPP
 
-#include <lua.hpp>
 #include "Object.hpp"
 
 class Cube : public Object
 {
 public:
-	//Cube(lua_State *L);
 	Cube(World *world);
 	Cube();
 	Uint8 Create(float posx, float posy, float posz, float size);
