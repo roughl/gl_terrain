@@ -24,15 +24,8 @@ public:
     virtual void Draw() = 0; // Do Render
     virtual void Update(Uint32 milliseconds, Uint8 *keystate) = 0; // per default do not any update
     
-    
     virtual const Pos& getPos() = 0;
     virtual const Angle& getAngle() = 0;
-protected:
-    bool visible;
-    Pos pos;
-    Angle angle;
-    GLuint dispList;
-    World *motherWorld;
 };
 
 #endif // __IOBJECT_HPP
