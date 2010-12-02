@@ -18,7 +18,6 @@ class terrvertex
 {
 	public:
 	float x,y,z;
-	float diffuse;
 	GLfloat normalVector[3];
 };
 

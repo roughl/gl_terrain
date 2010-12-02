@@ -67,26 +67,21 @@ bool zTerrain::Create(const char* Map)
 	  for (int x=0; x < width; x++) {
 		aterr[num].x = (float) x;
 		aterr[num].z = (float) z;
-		aterr[num].y = GetMapY(x,z);//  aheightmap[x+z*(width)] / 25.5f;
-		aterr[num].diffuse =  GetMapY(x,z)/10.0f;//  aheightmap[x+z*(width)] / 25.5f;
+		aterr[num].y = GetMapY(x,z);
 	  // logTerrain <<"x="<<x<<" z="<<z<<" -> aheigtmap["<<x+z*(width) << "] = " << aheightmap[x+z*(width)] << endl;
 	  // logTerrain <<"aterr[" << num <<"].y = " << aterr[num].y << endl;
-	  // logTerrain << "atterr[" << num <<"].diffuse = " << aterr[num].diffuse << "\n";
 		
 		aterr[num+1].x = (float) x;
 		aterr[num+1].z = (float) z+1;
 		aterr[num+1].y = GetMapY(x, z+1);
-		aterr[num+1].diffuse = GetMapY(x, z+1) / 10.0f;
 		
 		aterr[num+2].x = (float) x+1;
 		aterr[num+2].z = (float) z+1;
 		aterr[num+2].y = GetMapY(x+1,z+1);
-		aterr[num+2].diffuse = GetMapY(x+1,z+1)/10.0f;
 		//logTerrain <<"x="<<x+1<<" z="<<z+1<<" -> aheigtmap["<<x+1+(z+1)*(width) << "] = " << aheightmap[x+1+(z+1)*(width)] << endl;
 		aterr[num+3].x = (float) x+1;
 		aterr[num+3].z = (float) z;
 		aterr[num+3].y = GetMapY(x+1,z);
-		aterr[num+3].diffuse = GetMapY(x+1,z)/10.0f;
 		//logTerrain <<"x="<<x+1<<" z="<<z<<" -> aheigtmap["<<x+1+z*(width) << "] = " << aheightmap[ind(x+1,z,width)] << endl;
 
 		//logTerrain <<"x="<<x<<" z="<<z+1<<" -> aheigtmap["<<x+(z+1)*(width) << "] = " << aheightmap[x+(z+1)*(width)] << endl;
@@ -164,11 +159,11 @@ bool zTerrain::Create(const char* Map)
 		
 		num += 4;
 	  }
-   }
+	}
    
    
-   dispList=glGenLists(1);
-   glNewList(dispList,GL_COMPILE);
+	dispList=glGenLists(1);
+	glNewList(dispList,GL_COMPILE);
 	glBegin (GL_QUADS);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	num=0;
@@ -178,7 +173,7 @@ bool zTerrain::Create(const char* Map)
 	unsigned int numPoints=(height)*(width)*4;
 	for (int z=0; z < (height)*(width); z++) {
 		for (int cnt=0; cnt<4; cnt++) {
-			GLfloat red=0.0f, green=1.0f/**//*aterr[num].diffuse/**/, blue=0.0f;
+			GLfloat red=0.0f, green=1.0f, blue=0.0f;
 			if( ((int)round(aterr[num].y*25.5f)) % 2)
 				red=0.5f;
 			if (aterr[num].y<waterlevel)
@@ -292,7 +287,6 @@ void zTerrain::Update (Uint32  milliseconds, Uint8 *keystate)								// Perform 
 		(*partsit)->Update(milliseconds, keystate);
 	}
 }
-
 
 
 
