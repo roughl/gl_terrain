@@ -192,6 +192,7 @@ bool zTerrain::Create(const char* Map)
 					red+=0.1f;
 				else;
 					//red-=0.1f;
+				aterr[num].y = waterlevel;
 			}
 			else
 			{
@@ -261,7 +262,7 @@ float zTerrain::GetMapY(int x, int z)
 	assert(!(x<0 || z<0 || x>width || z>height)); // out of map?
 //	int x1=(int)floor(x), z1=(int)floor(z), x2=(int)ceil(z), z2=(int)ceil(z);
 //	float y1, y2, y3, y4;
-	return (float)aheightmap[ind(x, z, width)] / 25.5f; 
+	return (float)aheightmap[ind(x, z, width)] / 25.5f;
 }
 
 float zTerrain::GetMapY(float x, float z)
@@ -269,8 +270,8 @@ float zTerrain::GetMapY(float x, float z)
  //   cout << "GetMapY für " <<x <<" / " << z <<endl;
 	if(x<0.0f || z<0.0f || x>width || z>height) // out of map?
 		return -1.0f;
-//	int x1=(int)floor(x), z1=(int)floor(z), x2=(int)ceil(z), z2=(int)ceil(z);
-//	float y1, y2, y3, y4;
+	int x1=(int)floor(x), z1=(int)floor(z), x2=(int)ceil(z), z2=(int)ceil(z);
+	float y1 = GetMapY(x1,z1), y2=GetMapY(x2,z1), y3=GetMapY(x1,z2), y4=GetMapY(x2,z2);
 	return (float)aheightmap[ind((int)round(x), (int)round(z),width)] / 25.5f; 
 }
 
