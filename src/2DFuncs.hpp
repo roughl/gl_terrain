@@ -1,4 +1,6 @@
 // 2DFuncs.hpp
+#ifndef 2DFUNCS_HPP
+#define 2DFUNCS_HPP
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
@@ -22,3 +24,6 @@ class Text
 {
     
 }
+
+#endif // 2DFUNCS_HPP
+
