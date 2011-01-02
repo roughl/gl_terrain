@@ -293,7 +293,6 @@ void Particle::Draw( )
     //glBlendFunc(GL_ONE_MINUS_DST_ALPHA,GL_DST_ALPHA);  
     //glBlendFunc(GL_SRC_COLOR,GL_DST_ALPHA);  
 
-    glEnable(GL_POLYGON_STIPPLE);
     vector<Part *>::iterator part;
 	Angle angle;
     motherWorld->GetCamAngle(&angle);
@@ -304,7 +303,6 @@ void Particle::Draw( )
         (*part)->setAngleY(-angle.y);
         (*part)->Draw();
     }
-    glDisable(GL_POLYGON_STIPPLE);
 
     //glBlendFunc(GL_ONE_MINUS_DST_ALPHA,GL_DST_ALPHA); 
     glDisable(GL_TEXTURE_2D);  
