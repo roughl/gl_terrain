@@ -161,8 +161,8 @@ void World::Update (SDL_KeyboardEvent *keyevent)
     case SDLK_SPACE:
         if(keyevent->type==SDL_KEYDOWN)
         {
-            if(yspeed==0)
-                yspeed+=jumpvelocity;
+        //    if(yspeed==0)
+             //   yspeed+=jumpvelocity;
         }
         else
         {
@@ -191,19 +191,26 @@ void World::Update (Uint32  milliseconds, Uint8 *keystate)								// Perform Mot
     {
         pos.z-=cos((angle.y+90)/180.0f*M_PI)*(float)(milliseconds)*zspeed; // / 20.0f;
         pos.x+=sin((angle.y+90)/180.0f*M_PI)*(float)(milliseconds)*xspeed; // / 20.0f;
-/*
-	   angle.y += (float)(milliseconds) * turnspeed;						// Update angle Based On The Clock
-	   if(angle.y>360)
-	       angle.y=0.0f;*/
     }
     if (keystate[SDLK_LEFT] || keystate['a'])
     {
         pos.z-=cos((angle.y-90)/180.0f*M_PI)*(float)(milliseconds)*zspeed; // / 20.0f;
         pos.x+=sin((angle.y-90)/180.0f*M_PI)*(float)(milliseconds)*xspeed; // / 20.0f;
-	/*   angle.y -= (float)(milliseconds) * turnspeed;						// Update angle Based On The Clock
-	   if(angle.y<0)
-	       angle.y=360.0f;*/
     }
+	if (keystate['q'] )
+	{
+	   angle.y -= (float)(milliseconds) * turnspeed;						// Update angle Based On The Clock
+	   if(angle.y<0)
+	       angle.y=360.0f;
+	}
+	if (keystate['e'] )
+	{
+	   angle.y += (float)(milliseconds) * turnspeed;						// Update angle Based On The Clock
+	   if(angle.y>360)
+	       angle.y=0.0f;
+	}
+
+
    /* if(pos.x > width-1)  pos.x = width-1;
     if(pos.x < 0)        pos.x = 0.0f;
     if(pos.z > height-1) pos.z = height-1;
@@ -236,6 +243,12 @@ void World::Update (Uint32  milliseconds, Uint8 *keystate)								// Perform Mot
         pos.x=+64.0f;
         pos.z=+64.0f;
     }
+
+	// jetpack style
+	if (keystate[SDLK_SPACE])
+	{
+		yspeed += (gravity+gravity/10.0f)*milliseconds;
+	}
 
     vector<IObject *>::iterator obj;
     for(obj=objects.begin(); obj<objects.end(); obj++)
@@ -413,22 +426,24 @@ void World::Draw(void)
 	glRotatef (angle.z, 0.0f, 0.0f, 1.0f);						// Rotate On The Z-Axis By angle
 	glTranslatef (-this->pos.x, -this->pos.y, -this->pos.z);	// Translate to Cam Pos
 	
+	static const float max = 100.0f;
+	static const float min = 100.0f;
     static Cube mycube;
 	static float speed =  0.10f;
-    static float pos[4] = {(float)terrain[0]->GetWidth()/2, 10.0f, (float)terrain[0]->GetHeight()/2, 0.5f};
+    static float pos[4] = {(float)terrain[0]->GetWidth()*2, max, (float)terrain[0]->GetHeight()*2, 1.0f};
 	static float amb[4] = {0.01f, 0.01f, 0.01f, 1.0f};
 	static float dif[4] = {0.5f, 0.5f, 0.5f, 1.0f};
 	static float spec[4]= {1.0f, 1.0f, 1.0f, 1.0f};
     GL_SetLight(pos, amb, dif, spec);
     mycube.Create(pos[0],pos[1],pos[2],1.0f);
 	pos[1]+=speed;
-	if(pos[1] >= 20.0f){
+	if(pos[1] >= max){
 		speed = -speed;
-		pos[1]=20.0f;
+		pos[1]=max;
 	}
-	else if(pos[1] <= 0){
-		speed = -speed;///2.0f;
-		pos[1]=0;
+	else if(pos[1] <= min){
+		speed = -speed;
+		pos[1]=min;
 	}
 	mycube.Draw();
 
