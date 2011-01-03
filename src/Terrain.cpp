@@ -178,13 +178,8 @@ bool zTerrain::Create(const char* Map)
 				red=0.5f;
 			if (aterr[num].y<waterlevel)
 			{
-				GLfloat specReflection[] = {0.8f, 0.8f, 0.8f, 1.0f};
-				glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection);
-				glMateriali(GL_FRONT, GL_SHININESS, 96);
-				blue=aterr[num].y* (-1.0)/waterlevel + 1.0f;
-				green=1.0f-blue;
 				// Good Place for Particle??
-				if(blue>0.85f)
+				if( (aterr[num].y* (-1.0)/waterlevel + 1.0f)>0.85f)
 				{
 					ParticlePlaces.push_back(num);
 				}
@@ -192,7 +187,6 @@ bool zTerrain::Create(const char* Map)
 					red+=0.1f;
 				else;
 					//red-=0.1f;
-				aterr[num].y = waterlevel;
 			}
 			else
 			{
@@ -207,7 +201,7 @@ bool zTerrain::Create(const char* Map)
 		}
 
 	}
-	glEnd ();	
+	glEnd();
 	// draw normals
 	/*glBegin(GL_LINES);
 	glColor4f(1.0,1.0,1.0,1.0f);
@@ -282,6 +276,7 @@ void zTerrain::Update (SDL_KeyboardEvent *keyevent)
 
 void zTerrain::Update (Uint32  milliseconds, Uint8 *keystate)								// Perform Motion Updates Here
 {
+	wave = sin(SDL_GetTicks()/1000.0f)/20.0f;
 	std::vector<Particle *>::iterator partsit;
 	for(partsit=particles.begin(); partsit<particles.end(); partsit++)
 	{
@@ -311,6 +306,20 @@ void zTerrain::Draw(void)
 	std::cout << "Drawing Terrain at " << posx << " / " << posy << " / " << posz << " / ";
 	#endif
 	glCallList(dispList);
+	
+	glEnable(GL_BLEND);							                 // Enable Blending
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);					         // Type Of Blending To Perform
+	glBegin(GL_QUADS);
+	
+	glColor4f(0,0,1.0f,0.6f);
+	glNormal3f(0,1.0,0);
+	glVertex3f(0, waterlevel+wave, 0);
+	glVertex3f(0, waterlevel+wave, height);
+	glVertex3f(width, waterlevel+wave, height);
+	glVertex3f(width, waterlevel+wave, 0);
+	
+	glEnd ();	
+	glDisable(GL_BLEND);
 	DrawChildren();
 } 
 

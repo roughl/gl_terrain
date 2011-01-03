@@ -403,23 +403,6 @@ void World::Draw(void)
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// Clear Screen And Depth Buffer
 	glLoadIdentity ();											// Reset The Modelview Matrix
 	
-	glTranslatef(-1.5,0,0);
-    glTranslatef(0, 0,-6);
-    //glBegin(GL_TRIANGLES);
-    //  glVertex3f(-1,-1, 0);  
-    //  glVertex3f( 1,-1, 0);
-    //  glVertex3f( 0, 1, 0);
-    //glEnd();
-	glTranslatef (0.0f, 0.0f, -2.0f);	// Translate to Cam Pos
-	float size=4.0f;
-	glRotatef(89.0f, 0.0f, 1.0f, 0.0f);
-	//glBegin (GL_QUADS);
-	//glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, 0.0f);
-    //glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, 0.0f);
-    //glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, 0.0f);
-    //glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, 0.0f);
-    //glEnd();
-    glLoadIdentity();
 	// --- Go to Cam Pos ---
 	glRotatef (angle.x, 1.0f, 0.0f, 0.0f);						// Rotate On The X-Axis By angle
 	glRotatef (angle.y, 0.0f, 1.0f, 0.0f);						// Rotate On The Y-Axis By angle
