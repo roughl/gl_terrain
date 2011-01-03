@@ -54,6 +54,7 @@ private:
 	float anglex, angley, anglez;
    
 	float waterlevel;
+	float wave;
    
 	Uint32 maxFontains;
 
