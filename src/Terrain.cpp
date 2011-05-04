@@ -85,61 +85,69 @@ bool zTerrain::Create(const char* Map)
 		//logTerrain <<"x="<<x+1<<" z="<<z<<" -> aheigtmap["<<x+1+z*(width) << "] = " << aheightmap[ind(x+1,z,width)] << endl;
 
 		//logTerrain <<"x="<<x<<" z="<<z+1<<" -> aheigtmap["<<x+(z+1)*(width) << "] = " << aheightmap[x+(z+1)*(width)] << endl;
-		GLfloat vert1[3], vert2[3], vert3[3];
+
+		GLfloat norm1[3], norm2[3], norm3[3], norm4[3], norm5[3], norm6[3], norm7[3], norm8[3], norm9[3];
 		
-		vert1 = {(GLfloat)x  , GetMapY(x  ,z  ), (GLfloat)z  };
-		vert2 = {(GLfloat)x-1, GetMapY(x-1,z  ), (GLfloat)z  };
-		vert3 = {(GLfloat)x-1, GetMapY(x-1,z-1), (GLfloat)z-1};
-		GLfloat norm1[3];
+		GLfloat vert1[] = {(GLfloat)x  , GetMapY(x  ,z  ), (GLfloat)z  };
+		GLfloat vert2[] = {(GLfloat)x-1, GetMapY(x-1,z  ), (GLfloat)z  };
+		GLfloat vert3[] = {(GLfloat)x-1, GetMapY(x-1,z-1), (GLfloat)z-1};
 		vec::CalculateVectorNormal(vert1,vert2,vert3, norm1);
 		
-		vert1 = {(GLfloat)x+1, GetMapY(x+1,z  ), (GLfloat)z  };
-		vert2 = {(GLfloat)x  , GetMapY(x  ,z  ), (GLfloat)z  };
-		vert3 = {(GLfloat)x  , GetMapY(x  ,z-1), (GLfloat)z-1};
-		GLfloat norm2[3];
+		{
+		GLfloat vert1[] = {(GLfloat)x+1, GetMapY(x+1,z  ), (GLfloat)z  };
+		GLfloat vert2[] = {(GLfloat)x  , GetMapY(x  ,z  ), (GLfloat)z  };
+		GLfloat vert3[] = {(GLfloat)x  , GetMapY(x  ,z-1), (GLfloat)z-1};
 		vec::CalculateVectorNormal(vert1,vert2,vert3, norm2);
+		}
 		
-		vert1 = {(GLfloat)x+2, GetMapY(x+2,z  ), (GLfloat)z  };
-		vert2 = {(GLfloat)x+1, GetMapY(x+1,z  ), (GLfloat)z  };
-		vert3 = {(GLfloat)x+1, GetMapY(x+1,z-1), (GLfloat)z-1};
-		GLfloat norm3[3];
+		{
+		GLfloat vert1[] = {(GLfloat)x+2, GetMapY(x+2,z  ), (GLfloat)z  };
+		GLfloat vert2[] = {(GLfloat)x+1, GetMapY(x+1,z  ), (GLfloat)z  };
+		GLfloat vert3[] = {(GLfloat)x+1, GetMapY(x+1,z-1), (GLfloat)z-1};
 		vec::CalculateVectorNormal(vert1,vert2,vert3, norm3);
+		}
 
-		vert1 = {(GLfloat)x+0, GetMapY(x+0,z+1), (GLfloat)z+1};
-		vert2 = {(GLfloat)x-1, GetMapY(x-1,z+1), (GLfloat)z+1};
-		vert3 = {(GLfloat)x-1, GetMapY(x-1,z+0), (GLfloat)z+0};
-		GLfloat norm4[3];
+		{
+		GLfloat vert1[] = {(GLfloat)x+0, GetMapY(x+0,z+1), (GLfloat)z+1};
+		GLfloat vert2[] = {(GLfloat)x-1, GetMapY(x-1,z+1), (GLfloat)z+1};
+		GLfloat vert3[] = {(GLfloat)x-1, GetMapY(x-1,z+0), (GLfloat)z+0};
 		vec::CalculateVectorNormal(vert1,vert2,vert3, norm4);
+		}
 
-		vert1 = {(GLfloat)x+1, GetMapY(x+1,z+1), (GLfloat)z+1};//&(aterr[num+2].x);
-		vert2 = {(GLfloat)x  , GetMapY(x  ,z+1), (GLfloat)z+1};//&(aterr[num+2].x);
-		vert3 = {(GLfloat)x  , GetMapY(x  ,z  ), (GLfloat)z  };//&(aterr[num+2].x);
-		GLfloat norm5[3];
+		{
+		GLfloat vert1[] = {(GLfloat)x+1, GetMapY(x+1,z+1), (GLfloat)z+1};//&(aterr[num+2].x);
+		GLfloat vert2[] = {(GLfloat)x  , GetMapY(x  ,z+1), (GLfloat)z+1};//&(aterr[num+2].x);
+		GLfloat vert3[] = {(GLfloat)x  , GetMapY(x  ,z  ), (GLfloat)z  };//&(aterr[num+2].x);
 		vec::CalculateVectorNormal(vert1,vert2,vert3, norm5);
+		}
 
-		vert1 = {(GLfloat)x+2, GetMapY(x+2,z+1), (GLfloat)z+1};
-		vert2 = {(GLfloat)x+1, GetMapY(x+1,z+1), (GLfloat)z+1};
-		vert3 = {(GLfloat)x+1, GetMapY(x+1,z+0), (GLfloat)z+0};
-		GLfloat norm6[3];
+		{
+		GLfloat vert1[] = {(GLfloat)x+2, GetMapY(x+2,z+1), (GLfloat)z+1};
+		GLfloat vert2[] = {(GLfloat)x+1, GetMapY(x+1,z+1), (GLfloat)z+1};
+		GLfloat vert3[] = {(GLfloat)x+1, GetMapY(x+1,z+0), (GLfloat)z+0};
 		vec::CalculateVectorNormal(vert1,vert2,vert3, norm6);
+		}
 
-		vert1 = {(GLfloat)x+0, GetMapY(x+0,z+2), (GLfloat)z+2};
-		vert2 = {(GLfloat)x-1, GetMapY(x-1,z+2), (GLfloat)z+2};
-		vert3 = {(GLfloat)x-1, GetMapY(x-1,z+1), (GLfloat)z+1};
-		GLfloat norm7[3];
+		{
+		GLfloat vert1[] = {(GLfloat)x+0, GetMapY(x+0,z+2), (GLfloat)z+2};
+		GLfloat vert2[] = {(GLfloat)x-1, GetMapY(x-1,z+2), (GLfloat)z+2};
+		GLfloat vert3[] = {(GLfloat)x-1, GetMapY(x-1,z+1), (GLfloat)z+1};
 		vec::CalculateVectorNormal(vert1,vert2,vert3, norm7);
+		}
 
-		vert1 = {(GLfloat)x+1, GetMapY(x+1,z+2), (GLfloat)z+2};
-		vert2 = {(GLfloat)x+0, GetMapY(x+0,z+2), (GLfloat)z+2};
-		vert3 = {(GLfloat)x+0, GetMapY(x+0,z+1), (GLfloat)z+1};
-		GLfloat norm8[3];
+		{
+		GLfloat vert1[] = {(GLfloat)x+1, GetMapY(x+1,z+2), (GLfloat)z+2};
+		GLfloat vert2[] = {(GLfloat)x+0, GetMapY(x+0,z+2), (GLfloat)z+2};
+		GLfloat vert3[] = {(GLfloat)x+0, GetMapY(x+0,z+1), (GLfloat)z+1};
 		vec::CalculateVectorNormal(vert1,vert2,vert3, norm8);
+		}
 
-		vert1 = {(GLfloat)x+2, GetMapY(x+2,z+2), (GLfloat)z+2};
-		vert2 = {(GLfloat)x+1, GetMapY(x+1,z+2), (GLfloat)z+2};
-		vert3 = {(GLfloat)x+1, GetMapY(x+1,z+1), (GLfloat)z+1};
-		GLfloat norm9[3];
+		{
+		GLfloat vert1[] = {(GLfloat)x+2, GetMapY(x+2,z+2), (GLfloat)z+2};
+		GLfloat vert2[] = {(GLfloat)x+1, GetMapY(x+1,z+2), (GLfloat)z+2};
+		GLfloat vert3[] = {(GLfloat)x+1, GetMapY(x+1,z+1), (GLfloat)z+1};
 		vec::CalculateVectorNormal(vert1,vert2,vert3, norm9);
+		}
 		logTerrain << norm9[0] << " " << norm9[1] << " " << norm9[2] << " " << sqrt(norm9[0]*norm9[0]+norm9[1]*norm9[1]+ norm9[2]*norm9[2]) << endl ;
 		aterr[num+0].normalVector[0] = (norm1[0] + norm2[0] + norm4[0] + norm5[0])/4.0f;
 		aterr[num+0].normalVector[1] = (norm1[1] + norm2[1] + norm4[1] + norm5[1])/4.0f;
