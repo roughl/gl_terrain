@@ -9,14 +9,13 @@
 #include "VectorCalc.hpp"
 #include "World.hpp"
 
-Sphere::Sphere():
-Object()
-{
-}
-
 Sphere::Sphere(World *world):
 	Object(),
-    quadratic(0)
+    quadratic(NULL),
+	speedx(0),
+	speedy(0),
+	speedz(0),
+	size(0)
 {
 }
 
@@ -42,7 +41,6 @@ Uint8 Sphere::Create(float posx, float posy, float posz, float newsize=2.0f)
 	gluQuadricNormals(quadratic, GLU_SMOOTH);	// Create Smooth Normals ( NEW )
 	gluQuadricTexture(quadratic, GL_TRUE);		// Create Texture Coords ( NEW )
     return 1;
-
 }
 
 void Sphere::Update(Uint32 milliseconds, Uint8 *keystate)

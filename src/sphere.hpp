@@ -11,8 +11,7 @@
 class Sphere : public Object
 {
 public:
-    Sphere();
-    Sphere(World *world);
+    Sphere(World *world=NULL);
     ~Sphere();
     Uint8 Create(float posx, float posy, float posz, float size);
     void Update(Uint32 milliseconds, Uint8 *keystate);
@@ -21,12 +20,7 @@ private:
     float speedx, speedy, speedz;
     float size;
     GLUquadricObj *quadratic;				// Storage For Our Quadratic Objects ( NEW )
-
 };
 
-    
-
-
-
-
 #endif // __SPHERE_HPP
+
