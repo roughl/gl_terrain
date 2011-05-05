@@ -107,6 +107,7 @@ void World::Update (SDL_KeyboardEvent *keyevent)
     switch(keyevent->keysym.sym)
     {
     case SDLK_KP_PLUS:
+	case SDLK_PLUS:
         if(keyevent->type==SDL_KEYUP)
         {
             float x, y, z, size;

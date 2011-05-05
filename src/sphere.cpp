@@ -67,7 +67,7 @@ void Sphere::Draw()
 	glRotatef (angley, 0.0f, 1.0f, 0.0f); // Rotate On The Y-Axis By angle
 	glRotatef (anglez, 0.0f, 0.0f, 1.0f); // Rotate On The Z-Axis By angle
 */
-	gluSphere(quadratic,size,32,32)       // Draw A Sphere
+	gluSphere(quadratic,size,32,32);      // Draw A Sphere
 	glPopMatrix();
 }
 
