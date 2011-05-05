@@ -129,6 +129,7 @@ void World::Update (SDL_KeyboardEvent *keyevent)
         }
         break;
     case SDLK_KP_MINUS: 
+	case SDLK_MINUS:
         if(keyevent->type==SDL_KEYUP)
         {
             if(objects.size())
