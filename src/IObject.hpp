@@ -10,10 +10,20 @@ class World;
 
 struct Angle
 {
+	Angle(float x, float y, float z):
+		x(x),
+		y(y),
+		z(z)
+	{}
     float x,y,z;
 };
 struct Pos
 {
+	Pos(float x, float y, float z):
+		x(x),
+		y(y),
+		z(z)
+	{}
     float x,y,z;
 };
 

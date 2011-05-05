@@ -218,9 +218,11 @@ int main(int argc, char *argv[])
 	}
 	cout << "SDL Video Initialized"<< endl;
 	Uint32 flags=0;
-	flags |= SDL_OPENGLBLIT | SDL_HWSURFACE | SDL_RESIZABLE;
+	flags = SDL_OPENGLBLIT | SDL_HWSURFACE;
 	if(config.fullscreen)
-	flags |= SDL_FULLSCREEN;
+		flags |= SDL_FULLSCREEN;
+	else
+		flags |= SDL_RESIZABLE;
 
 	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );     // In order to use SDL_OPENGLBLIT we have to
 	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );   // set GL attributes first

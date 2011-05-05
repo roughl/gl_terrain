@@ -12,14 +12,10 @@ using namespace std;
 Object::Object(World *world):
     motherWorld(world),
     visible(true),
-	dispList(0)
+	dispList(0),
+	pos(0,0,0),
+	angle(0,0,0)
 {
-    pos.x=0.0f;
-    pos.y=0.0f;
-    pos.z=0.0f;
-    angle.x=0.0f;
-    angle.y=0.0f;
-    angle.z=0.0f;
 }
 
 

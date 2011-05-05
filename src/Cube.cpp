@@ -144,11 +144,8 @@ void Cube::Update(Uint32 milliseconds, Uint8 *keystate)
 	// calculate distance to viewer
 	// sqrt((-camx+partx)^2+(-camz+partz)^2)
 	float distance;
-	Pos mypos;
-	mypos.x=pos.x;
-	mypos.y=pos.y;
-	mypos.z=pos.z;
-	Pos worldpos;
+	Pos mypos(pos.x, pos.y, pos.z);
+	Pos worldpos(0,0,0);
 	#ifdef __DEBUG__
 	std::cout << "GetCamPos\n";
 	motherWorld->GetCamPos(&worldpos);

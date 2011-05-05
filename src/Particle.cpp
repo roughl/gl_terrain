@@ -294,7 +294,7 @@ void Particle::Draw( )
     //glBlendFunc(GL_SRC_COLOR,GL_DST_ALPHA);  
 
     vector<Part *>::iterator part;
-	Angle angle;
+	Angle angle(0,0,0);
     motherWorld->GetCamAngle(&angle);
     for(part=Parts.begin(); part<Parts.end(); part++)
     {   
