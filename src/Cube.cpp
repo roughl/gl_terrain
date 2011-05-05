@@ -9,17 +9,8 @@
 #include "VectorCalc.hpp"
 #include "World.hpp"
 
-Cube::Cube():
-	Object(),
-	speedx(0.0f),
-	speedy(0.0f),
-	speedz(0.0f),
-	size(0)
-{
-	dispList=0;
-}
-
 Cube::Cube(World *world):
+	Object(world),
 	speedx(0.0f),
 	speedy(0.0f),
 	speedz(0.0f),
