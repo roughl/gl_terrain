@@ -9,22 +9,10 @@
 
 using namespace std;
 
-
-Object::Object()
-{
-    pos.x=0.0f;
-    pos.y=0.0f;
-    pos.z=0.0f;    
-    angle.x=0.0f;
-    angle.y=0.0f;
-    angle.z=0.0f;
-    visible=true;
-	dispList = 0;
-}
-
 Object::Object(World *world):
     motherWorld(world),
-    visible(true)
+    visible(true),
+	dispList(0)
 {
     pos.x=0.0f;
     pos.y=0.0f;
@@ -32,7 +20,6 @@ Object::Object(World *world):
     angle.x=0.0f;
     angle.y=0.0f;
     angle.z=0.0f;
-	dispList = 0;
 }
 
 

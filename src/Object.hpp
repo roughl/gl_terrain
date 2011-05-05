@@ -14,8 +14,7 @@ class World;
 class Object : public IObject
 {
 public:
-    Object();
-    Object(World *world);
+    Object(World *world=NULL);
     virtual void Draw(); // Do Render
     virtual void Update(Uint32 milliseconds, Uint8 *keystate){} // per default do not any update
     
