@@ -14,21 +14,14 @@
 
 using namespace std;
 
-World::World(lua_State *luaState):L(luaState)
+World::World(lua_State *luaState):
+	L(luaState),
+	oldpos(64.0f, 64.0f, 25.0f),
+	pos(oldpos),
+	angle(0,0,0)
 {
-   
-    oldpos.x= 64.0f;
-    oldpos.z= 64.0f;
-    oldpos.y= 25.0f;
-    
-    pos.x= oldpos.x;
-    pos.z= oldpos.z;
-    pos.y= oldpos.y;
     posyoffset=0.0f;
     
-    angle.x=0.0f;
-    angle.y=0.0f;
-    angle.z=0.0f;
     
     zspeed=0.05f;
     xspeed=0.05f;
