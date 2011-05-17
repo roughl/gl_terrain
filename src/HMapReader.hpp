@@ -39,17 +39,9 @@ public:
     Uint16 width;
 private:
     
-    Uint8 HMap_ReadRaw(const char *FileName, int size);
+    Uint8 HMap_ReadRaw(const char *FileName);
     Uint8 HMap_ReadBMP(const char *FileName);
 };
 
-
-
-
-
-
-
-
-
-
 #endif // __HMAPREADER_HPP
+

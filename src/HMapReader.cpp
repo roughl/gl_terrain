@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 #include "HMapReader.hpp"
 
@@ -16,18 +17,17 @@ Hmap::Hmap(const char *Map)
 ,height(0)
 ,width(0)
 {
-   string FileName(Map);
-   if(FileName.find(".bmp", 0)!=string::npos)
-   {  
-   		cout << "ReadBMP()"<<endl;
-        HMap_ReadBMP(Map);
-   }
-   else if (FileName.find(".raw", 0)!=string::npos)
-   {
-   		cout << "ReadRaw()"<<endl;
-        HMap_ReadRaw(Map, 128 ); // @TODO: calculate the size
-   }
-    
+	string FileName(Map);
+	if(FileName.find(".bmp", 0)!=string::npos)
+	{  
+		cout << "ReadBMP()"<<endl;
+		HMap_ReadBMP(Map);
+	}
+	else if (FileName.find(".raw", 0)!=string::npos)
+	{
+		cout << "ReadRaw()"<<endl;
+		HMap_ReadRaw(Map);
+	}
 }
 
 Hmap::~Hmap()
@@ -36,20 +36,27 @@ Hmap::~Hmap()
     delete[] Data;    
 }
 
-Uint8 Hmap::HMap_ReadRaw(const char *FileName, int size=128)
+Uint8 Hmap::HMap_ReadRaw(const char *FileName )
 {
-   height=size;
-   width=size;
    ifstream file;
-   unsigned char c;
-   Data = new(Uint8[size*size]);
    
    file.open(FileName,ios::binary);
+   file.seekg (0, ios::end);
+   double dsize = sqrt((double)file.tellg());
+   if( dsize - (int)dsize != 0 ) {
+      return 0;
+   }
+   int size = (int)dsize;
+   file.seekg (0, ios::beg);
+
+   height=size;
+   width=size;
+   Data = new(Uint8[size*size]);
    for (int z=0; z < size; z++) {
       for (int x=0; x < size; x++) {
          char tmp;
          file.get(tmp);
-         c = (unsigned char)tmp;
+         unsigned char c = (unsigned char)tmp;
          Data[x+z*size] = (short)c;
       }
    }
