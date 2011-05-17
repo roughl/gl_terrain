@@ -1,5 +1,6 @@
 *.o
 *.log
+*.swp
 gl_terrain
 Lua/myconfig.lua
 tags
