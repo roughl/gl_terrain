@@ -63,34 +63,50 @@ Part::Part(Particle *group)
     :   partGroup(group),
         visible(true)
 {
-	life=1.0f;					// Give All The Particles Full Life
+	life=1.0f; // Give All The Particles Full Life
 
-	fade=( (float)rand()/RAND_MAX +0.05f)/100.0f;		// Random Fade Speed
+	fade=( (float)rand()/RAND_MAX +0.05f)/100.0f; // Random Fade Speed
 
-	r=colors[rand()%12][0];		// Select Red Rainbow Color
-	g=colors[rand()%12][1];		// Select Red Rainbow Color
-	b=colors[rand()%12][2];		// Select Red Rainbow Color
+	r=colors[rand()%12][0]; // Select Red Rainbow Color
+	g=colors[rand()%12][1]; // Select Red Rainbow Color
+	b=colors[rand()%12][2]; // Select Red Rainbow Color
 
-	xpos=(float)rand()/(RAND_MAX)-0.5f;					// Random On X Axis
-	ypos=0.0f;					                                // Center On Y Axis
-	zpos=(float)rand()/(RAND_MAX)-0.5f;				    // Random On Z Axis		
+	xpos=(float)rand()/(RAND_MAX)-0.5f; // Random On X Axis
+	ypos=0.0f;                          // Center On Y Axis
+	zpos=(float)rand()/(RAND_MAX)-0.5f; // Random On Z Axis
 
-    xspeed=((float)rand()/(RAND_MAX) -0.5f)/75.0f ;		   // Random Speed On X Axis
-    yspeed=((float)rand()/(RAND_MAX) +0.1f)/50.0f ;		       // Random Speed On Y Axis
-    zspeed=((float)rand()/(RAND_MAX) -0.5f)/75.0f ;		   // Random Speed On Z Axis
+	xspeed=((float)rand()/(RAND_MAX) -0.5f)/75.0f ;   // Random Speed On X Axis
+	yspeed=((float)rand()/(RAND_MAX) +0.1f)/50.0f ;   // Random Speed On Y Axis
+	zspeed=((float)rand()/(RAND_MAX) -0.5f)/75.0f ;   // Random Speed On Z Axis
 
-	xacc=0.0f;						  // Set Horizontal Pull To Zero
-	yacc=-0.05f/1000.0f;					  // Set Vertical Pull Downward
-	zacc=0.0f;						  // Set Pull On Z Axis To Zero
-	
+	xacc=0.0f;           // Set Horizontal Pull To Zero
+	yacc=-0.05f/1000.0f; // Set Vertical Pull Downward
+	zacc=0.0f;           // Set Pull On Z Axis To Zero
+
+	GLfloat vertices[4][2] = {
+	   -0.2f,+0.2f, // Top Left
+	   +0.2f,+0.2f, // Top Right
+	   -0.2f,-0.2f, // Bottom Left
+	   +0.2f,-0.2f, // Bottom Right
+	};
+	GLint texcoords[4][2] = {
+		0,1,
+		1,1,
+		0,0,
+		1,0,
+	};
+
    dispList=glGenLists(1);
    glNewList(dispList,GL_COMPILE);
-	glBegin (GL_TRIANGLE_STRIP);
-	   glTexCoord2d(0,1);/**/ glVertex2f(-0.2f,+0.2f); // Top Left
-	   glTexCoord2d(1,1);/**/ glVertex2f(+0.2f,+0.2f); // Top Right
-	   glTexCoord2d(0,0);/**/ glVertex2f(-0.2f,-0.2f); // Bottom Left
-	   glTexCoord2d(1,0);/**/ glVertex2f(+0.2f,-0.2f); // Bottom Right
-	glEnd();
+	glEnableClientState( GL_VERTEX_ARRAY );
+	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+
+	glVertexPointer( 2, GL_FLOAT, 0, vertices );
+	glTexCoordPointer( 2, GL_INT, 0, texcoords );
+	glDrawArrays( GL_TRIANGLE_STRIP, 0, 4 );
+	
+	glDisableClientState( GL_VERTEX_ARRAY );
+	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
    glEndList();
 }
 
