@@ -21,6 +21,7 @@ Cube::Cube(World *world):
 
 Uint8 Cube::Create(float posx, float posy, float posz, float newsize=2.0f)
 {
+	static const int n = 6*4;
 	this->size=newsize;
 	this->pos.x=posx;
 	this->pos.y=posy;
@@ -34,87 +35,95 @@ Uint8 Cube::Create(float posx, float posy, float posz, float newsize=2.0f)
 		dispList=glGenLists(1);
 	glNewList(dispList,GL_COMPILE);
 
-	glBegin (GL_QUADS);
-	
-	// Bottom
-	GLfloat vert1[] = { size, -size,  size };
-	GLfloat vert2[] = { size, -size, -size };
-	GLfloat vert3[] = {-size, -size, -size };
-	GLfloat norm[3];
-	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
-	
-	glNormal3fv(norm);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
+	GLfloat vertices[n][3] = {
+	 // Bottom
+	 -size, -size, -size,
+	  size, -size, -size,
+	  size, -size,  size,
+	 -size, -size,  size,
 	
 	// Top
-	{
-	GLfloat vert1[] = {-size,  size, -size };
-	GLfloat vert2[] = { size,  size, -size };
-	GLfloat vert3[] = { size,  size,  size };
-	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
-	glNormal3fv(norm);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size,  size);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
+	-size,  size, -size,
+	-size,  size,  size,
+	 size,  size,  size,
+	 size,  size, -size,
+	
+	-size,  size, -size,
+	 size,  size, -size,
+	 size, -size, -size,
+	-size, -size, -size,
+
+	 size, -size, -size,
+	 size,  size, -size,
+	 size,  size,  size,
+	 size, -size,  size,
+
+	 size, -size,  size,
+	 size,  size,  size,
+	-size,  size,  size,
+	-size, -size,  size,
+		
+	-size, -size,  size,
+	-size,  size,  size,
+	-size,  size, -size,
+	-size, -size, -size
+	};
+
+	GLfloat colors[n][3] = {
+	0.0f, 0.0f, 1.0f,
+	0.0f, 0.0f, 1.0f,
+	0.0f, 0.0f, 1.0f,
+	0.0f, 0.0f, 1.0f,
+	
+	1.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+
+	1.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+	0.0f, 0.0f, 1.0f,
+	0.0f, 0.0f, 1.0f,
+	
+	0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+	0.0f, 0.0f, 1.0f,
+
+	0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+	0.0f, 0.0f, 1.0f,
+
+	0.0f, 0.0f, 1.0f,
+	1.0f, 0.0f, 0.0f,
+	1.0f, 0.0f, 0.0f,
+	0.0f, 0.0f, 1.0f,
+	};
+
+	GLfloat normals[n][3] = { };
+
+	for(int i=0; i<n; i+=4) {
+		vec::CalculateVectorNormal( vertices[i], vertices[i+1], vertices[i+2], normals[i] );
+		vec::CalculateVectorNormal( vertices[i], vertices[i+1], vertices[i+2], normals[i+1] );
+		vec::CalculateVectorNormal( vertices[i], vertices[i+1], vertices[i+2], normals[i+2] );
+		vec::CalculateVectorNormal( vertices[i], vertices[i+1], vertices[i+2], normals[i+3] );
 	}
 
-	// Side
-	{
-	GLfloat vert1[] = { size, -size, -size };
-	GLfloat vert2[] = { size,  size, -size };
-	GLfloat vert3[] = {-size,  size, -size };
-	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
-	glNormal3fv(norm);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
-	}
+	glEnableClientState( GL_VERTEX_ARRAY );
+	glEnableClientState( GL_COLOR_ARRAY );
+	glEnableClientState( GL_NORMAL_ARRAY );
 
-	// Side
-	{
-	GLfloat vert1[] = { size,  size,  size };
-	GLfloat vert2[] = { size,  size, -size };
-	GLfloat vert3[] = { size, -size, -size };
-	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
-	glNormal3fv(norm);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size, -size);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size, -size);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
-	}
+	glVertexPointer( 3, GL_FLOAT, 0, vertices );
+	glColorPointer(  3, GL_FLOAT, 0, colors );
+	glNormalPointer( GL_FLOAT, 0, normals );
 
-	// Side
-	{
-	GLfloat vert1[] = {-size,  size,  size };
-	GLfloat vert2[] = { size,  size,  size };
-	GLfloat vert3[] = { size, -size,  size };
-	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
-	glNormal3fv(norm);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f( size, -size,  size);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f( size,  size,  size);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size,  size);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
-	}
+	glDrawArrays( GL_QUADS, 0, n );
+	
+	glDisableClientState( GL_VERTEX_ARRAY );
+	glDisableClientState( GL_COLOR_ARRAY );
+	glDisableClientState( GL_NORMAL_ARRAY );
 
-	// Side
-	{
-	GLfloat vert1[] = {-size,  size, -size };
-	GLfloat vert2[] = {-size,  size,  size };
-	GLfloat vert3[] = {-size, -size,  size };
-	vec::CalculateVectorNormal(vert1,vert2,vert3, norm);
-	glNormal3fv(norm);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size,  size);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size,  size);
-	glColor3f (1.0f, 0.0f, 0.0f); glVertex3f(-size,  size, -size);
-	glColor3f (0.0f, 0.0f, 1.0f); glVertex3f(-size, -size, -size);
-	}
-
-	glEnd ();    
 	glEndList();
 }
 
