@@ -175,7 +175,7 @@ int main(int argc, char *argv[])
 			cout << "SDL Video Initialized"<< endl;
 			SDL_Rect **modes;
 			Uint32 flags=0;
-			flags |= SDL_OPENGLBLIT | SDL_HWSURFACE | SDL_RESIZABLE;
+			flags |= SDL_OPENGL | SDL_HWSURFACE | SDL_RESIZABLE;
 			if(config.fullscreen)
 				flags |= SDL_FULLSCREEN;
 			/* Get available fullscreen/hardware modes */
@@ -218,7 +218,7 @@ int main(int argc, char *argv[])
 	}
 	cout << "SDL Video Initialized"<< endl;
 	Uint32 flags=0;
-	flags = SDL_OPENGLBLIT | SDL_HWSURFACE;
+	flags = SDL_OPENGL | SDL_HWSURFACE;
 	if(config.fullscreen)
 		flags |= SDL_FULLSCREEN;
 	else
