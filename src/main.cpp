@@ -282,6 +282,8 @@ int main(int argc, char *argv[])
 	ReshapeGL(config.width, config.height, myWorld->GetDepth());
 	srand(SDL_GetTicks());
 	Uint32 OldTime=SDL_GetTicks();
+	Uint32 frames = 0;
+	Uint32 frameTimer = OldTime;
 	cout << "Entering Main Loop" << endl;
 	for(int done = 0; !done;)
 	{
@@ -321,10 +323,18 @@ int main(int argc, char *argv[])
 
 			};
 		}
-		myWorld->Update(Time-OldTime, keyState);
+		Uint32 diff = Time-OldTime;
+		
+		myWorld->Update(diff, keyState);
 		OldTime=Time;
 		myWorld->Draw();
 		SDL_GL_SwapBuffers();
+		frames++;
+		if(Time-frameTimer > 1000) {
+			cout << "FPS: " << (float)frames*1000/(float)(Time-frameTimer) << endl;
+			frameTimer = Time;
+			frames = 0;
+		}
 	}
 	delete myWorld;
 	return(0);
