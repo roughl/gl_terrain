@@ -40,7 +40,6 @@ void terminate(int code)
 	SDL_Quit();
 	exit(code);
 }
-    
 
 int main(int argc, char *argv[])
 {
@@ -165,7 +164,7 @@ int main(int argc, char *argv[])
 			config.height=height;
 		}
 		else if(arg.compare("--videoinfo")==0)
-		{  
+		{
 			//cout << "Entering videoinfo" << endl;
 			if(SDL_Init(SDL_INIT_VIDEO)<0)
 			{
@@ -185,19 +184,19 @@ int main(int argc, char *argv[])
 			
 			/* Check if there are any modes available */
 			if(modes == (SDL_Rect **)0){
-			  cout <<"No modes available!" << endl;
-			  terminate(-1);
+				cout <<"No modes available!" << endl;
+				terminate(-1);
 			}
 			/* Check if or resolution is restricted */
 			if(modes == (SDL_Rect **)-1){
-			  cout << "All resolutions available." << endl;
+				cout << "All resolutions available." << endl;
 			}
 			else{
-			  /* Print valid modes */
-			  cout << "Available Modes:" << endl;
-			  int cnt;
-			  for(cnt=0;modes[cnt];++cnt)
-				cout << "  " << modes[cnt]->w << "x" << modes[cnt]->h << endl;
+				/* Print valid modes */
+				cout << "Available Modes:" << endl;
+				int cnt;
+				for(cnt=0;modes[cnt];++cnt)
+					cout << "  " << modes[cnt]->w << "x" << modes[cnt]->h << endl;
 			}
 			return 0;
 
@@ -298,7 +297,11 @@ int main(int argc, char *argv[])
 				done = 1;
 				break;    
 			case SDL_VIDEORESIZE:
-				ReshapeGL (event.resize.w, event.resize.h, myWorld->GetDepth() );
+				cout << "SDL_VIDEORESIZE" << endl;
+				config.width = event.resize.w;
+				config.height = event.resize.h;
+				if (SDL_SetVideoMode(config.width, config.height, 0, flags)==NULL)
+				ReshapeGL (config.width, config.height, myWorld->GetDepth() );
 				break;
 			case SDL_KEYDOWN:
 			case SDL_KEYUP:
