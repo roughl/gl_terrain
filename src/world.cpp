@@ -90,9 +90,12 @@ bool World::Create(const char* fileName)
     }
     cout << "--- Creating Terrain ---"<<endl;
     terrain.push_back(new zTerrain(L, this));
-    terrain[0]->Create(Map);
+    if( !terrain[0]->Create(Map) ) {
+		cout << "Creating Terrain failed!" << endl;
+		return false;
+	}
     cout << "--- Terrain Finished! ---"<<endl;
-    
+	return true;
 }
 
 

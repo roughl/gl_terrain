@@ -59,7 +59,7 @@ bool zTerrain::Create(const char* Map)
    
    terrvertex *aterr = new terrvertex[(height)*(width)*4];
    
-   if (aheightmap==NULL)
+   if (aheightmap==NULL || aterr==NULL)
 	  return false;
 
    int num=0;

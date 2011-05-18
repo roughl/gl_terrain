@@ -273,7 +273,10 @@ int main(int argc, char *argv[])
 
 	cout <<"--- Creating World ---" << endl;
 	World *myWorld = new World(L);
-	myWorld->Create(config.TerrainFilename);
+	if( !myWorld->Create(config.TerrainFilename) ) {
+		cout << "Creating World failed!" << endl;
+		terminate(2);
+	}
 	cout << "--- World created! ---" << endl;
 	cout << "-----------------------------------------------------------------";
 	cout << endl;
