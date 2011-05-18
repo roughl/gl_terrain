@@ -146,7 +146,7 @@ bool InitializeGL ( )					// Any GL Init Code & User Initialiazation Goes Here
 	glEnable (GL_DEPTH_TEST);								 	 // Enable Depth Testing
 	glShadeModel (GL_SMOOTH);									 // Select Shading GL_FLAT or GL_SMOOTH
 	glHint (GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);			 // Set Perspective Calculations To Most Accurate
-  //  glCullFace(GL_BACK);
+    glCullFace(GL_BACK);
     glFrontFace(GL_CCW); 
     glEnable(GL_CULL_FACE);
     
