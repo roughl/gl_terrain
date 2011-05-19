@@ -17,7 +17,7 @@
 class terrvertex 
 {
 	public:
-	float x,y,z;
+	GLfloat x,y,z;
 	GLfloat normalVector[3];
 };
 
