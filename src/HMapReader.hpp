@@ -32,11 +32,10 @@ public:
     
     Hmap(const char *Map);
     ~Hmap();
-    float getY();
-    
     Uint8 *Data;
     Uint16 height;
     Uint16 width;
+    
 private:
     
     Uint8 HMap_ReadRaw(const char *FileName);
