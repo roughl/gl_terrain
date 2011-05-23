@@ -174,9 +174,11 @@ int main(int argc, char *argv[])
 			cout << "SDL Video Initialized"<< endl;
 			SDL_Rect **modes;
 			Uint32 flags=0;
-			flags |= SDL_OPENGL | SDL_HWSURFACE | SDL_RESIZABLE;
+			flags |= SDL_OPENGL | SDL_HWSURFACE;
 			if(config.fullscreen)
 				flags |= SDL_FULLSCREEN;
+			else
+				flags |= SDL_RESIZABLE;
 			/* Get available fullscreen/hardware modes */
 			cout << "Call SDL_ListModes(NULL, " << flags << ")" << endl;
 			modes=SDL_ListModes(NULL, flags);
@@ -269,8 +271,7 @@ int main(int argc, char *argv[])
 	SDL_UpdateRect(Screen, 0, 0, config.width, config.height); // did crash
 	cout << "SDL_GL_SwapBuffers()" << endl;
 	SDL_GL_SwapBuffers();
-
-
+	
 	cout <<"--- Creating World ---" << endl;
 	World *myWorld = new World(L);
 	if( !myWorld->Create(config.TerrainFilename) ) {
