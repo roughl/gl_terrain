@@ -306,8 +306,8 @@ int main(int argc, char *argv[])
 				cout << "SDL_VIDEORESIZE" << endl;
 				config.width = event.resize.w;
 				config.height = event.resize.h;
-				if (SDL_SetVideoMode(config.width, config.height, 0, flags)==NULL)
-				ReshapeGL (config.width, config.height, myWorld->GetDepth() );
+				if (SDL_SetVideoMode(config.width, config.height, 0, flags))
+					ReshapeGL (config.width, config.height, myWorld->GetDepth() );
 				break;
 			case SDL_KEYDOWN:
 			case SDL_KEYUP:
