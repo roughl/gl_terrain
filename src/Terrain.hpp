@@ -19,6 +19,7 @@ class terrvertex
 	public:
 	GLfloat x,y,z;
 	GLfloat normalVector[3];
+	GLfloat color[3];
 };
 
 #define ind(x, z, sizeofx) ((x) + ((z) * (sizeofx))) 
