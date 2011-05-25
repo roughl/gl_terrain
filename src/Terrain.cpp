@@ -174,6 +174,9 @@ bool zTerrain::Create(const char* Map)
 	glNewList(dispList,GL_COMPILE);
 	glBegin (GL_QUADS);
 	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	GLfloat specReflection[] = {0.0f, 0.0f, 0.0f, 1.0f};
+	glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection);
+	glMateriali(GL_FRONT, GL_SHININESS, 0);
 	num=0;
 	srand(SDL_GetTicks());
 	
@@ -195,12 +198,6 @@ bool zTerrain::Create(const char* Map)
 					red+=0.1f;
 				else;
 					//red-=0.1f;
-			}
-			else
-			{
-				GLfloat specReflection[] = {0.0f, 0.0f, 0.0f, 1.0f};
-				glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection);
-				glMateriali(GL_FRONT, GL_SHININESS, 0);
 			}
 			glNormal3fv(aterr[num].normalVector);
 			glColor4f (red, green, blue, 1.0f);
