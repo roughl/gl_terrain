@@ -334,7 +334,7 @@ int main(int argc, char *argv[])
 		myWorld->Draw();
 		SDL_GL_SwapBuffers();
 		frames++;
-		if(Time-frameTimer > 1000) {
+		if(Time-frameTimer > 5000) {
 			cout << "FPS: " << (float)frames*1000/(float)(Time-frameTimer) << endl;
 			frameTimer = Time;
 			frames = 0;
