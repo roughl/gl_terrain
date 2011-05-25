@@ -170,13 +170,6 @@ bool zTerrain::Create(const char* Map)
 	}
    
    
-	dispList=glGenLists(1);
-	glNewList(dispList,GL_COMPILE);
-	glBegin (GL_QUADS);
-	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
-	GLfloat specReflection[] = {0.0f, 0.0f, 0.0f, 1.0f};
-	glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection);
-	glMateriali(GL_FRONT, GL_SHININESS, 0);
 	num=0;
 	srand(SDL_GetTicks());
 	
@@ -199,14 +192,35 @@ bool zTerrain::Create(const char* Map)
 				else;
 					//red-=0.1f;
 			}
-			glNormal3fv(aterr[num].normalVector);
-			glColor4f (red, green, blue, 1.0f);
-			glVertex3f(aterr[num].x,aterr[num].y, aterr[num].z);
+			aterr[num].color[0] = red;
+			aterr[num].color[1] = green;
+			aterr[num].color[2] = blue;
 			num++;
 		}
 
 	}
-	glEnd();
+	dispList=glGenLists(1);
+	glNewList(dispList,GL_COMPILE);
+	
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+	GLfloat specReflection[] = {0.0f, 0.0f, 0.0f, 1.0f};
+	glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection);
+	glMateriali(GL_FRONT, GL_SHININESS, 0);
+	
+	glEnableClientState( GL_VERTEX_ARRAY );
+	glEnableClientState( GL_COLOR_ARRAY );
+	glEnableClientState( GL_NORMAL_ARRAY );
+	
+	glVertexPointer( 3, GL_FLOAT, sizeof(aterr[0]), aterr );
+	glColorPointer(  3, GL_FLOAT, sizeof(aterr[0]), aterr[0].color );
+	glNormalPointer( GL_FLOAT, sizeof(aterr[0]), aterr[0].normalVector );
+	
+	glDrawArrays( GL_QUADS, 0, height*width*4 );
+	
+	glDisableClientState( GL_VERTEX_ARRAY );
+	glDisableClientState( GL_COLOR_ARRAY );
+	glDisableClientState( GL_NORMAL_ARRAY );
+
 	// draw normals
 	/*glBegin(GL_LINES);
 	glColor4f(1.0,1.0,1.0,1.0f);
