@@ -182,8 +182,10 @@ bool zTerrain::Create(const char* Map)
 				red=0.5f;
 			if (aterr[num].y<waterlevel)
 			{
+				float deepness =(-aterr[num].y/waterlevel)+1.0f;
+				blue = deepness*0.8;
 				// Good Place for Particle??
-				if( (aterr[num].y* (-1.0)/waterlevel + 1.0f)>0.85f)
+				if( deepness>0.85f)
 				{
 					ParticlePlaces.push_back(num);
 				}
