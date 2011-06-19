@@ -19,7 +19,7 @@ typedef struct {
 
 unsigned LoadAlphaTexture(const char *filename);
 unsigned LoadTexture(const char *filename);
-void ReshapeGL (int width, int height, float depth);
+void ReshapeGL (int width, int height, float depth=100);
 bool InitializeGL (void);
 void DeinitializeGL(void);
 void GL_SetLight(float *Position, float *Ambient, float *div, float *spec);
