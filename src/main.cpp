@@ -250,27 +250,47 @@ int main(int argc, char *argv[])
 	SDL_ShowCursor(SDL_DISABLE);
 
 	cout << "Load LoadingScreen" << endl;
-	SDL_Surface *SplashScreen=SDL_LoadBMP("Data/LoadingScreen.bmp");
-	if(SplashScreen==NULL)
-	{
+	unsigned texture;
+	texture = LoadTexture("Data/LoadingScreen.bmp");
+	if(!texture) {
 		cout << "Error while Loading Splashscreen" << endl;
 		terminate(1);
 	}
+	GLfloat vertices[4][2] = {
+	   -1.0, -1.0, // Bottom Left
+	   +1.0, -1.0, // Bottom Right
+	   +1.0, +1.0, // Top Right
+	   -1.0, +1.0, // Top Left
+	};
+	GLint texcoords[4][2] = {
+		0,1, // Top Left
+		1,1, // Top Right
+		1,0, // Bottom Right
+		0,0, // Bottom Left
+	};
+	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// Clear Screen And Depth Buffer
+	glTranslatef (0,0,-1);	// Translate to Cam Pos
+    glEnable(GL_TEXTURE_2D);// Texture Mapping aktivieren
+    glBindTexture(GL_TEXTURE_2D, texture);    
 
-	cout << "SDL_GetVideoSurface()" << endl;
-	Screen=SDL_GetVideoSurface();
-	if(Screen==NULL)
-	{
-		cout << "Error while Getting VideoSurface" << endl;
-		terminate(1);
+	glEnableClientState( GL_VERTEX_ARRAY );
+	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+	glVertexPointer( 2, GL_FLOAT, 0, vertices );
+	glTexCoordPointer( 2, GL_INT, 0, texcoords );
+	glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+	glDisableClientState( GL_VERTEX_ARRAY );
+	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+	
+	glDisable(GL_TEXTURE_2D);
+	
+	GLenum error = glGetError();
+	if(error != GL_NO_ERROR ) {
+		cerr << "OpenGL error occoured\n";
 	}
 
-	cout << "SDL_BlitSurface()" << endl;
-	SDL_BlitSurface(SplashScreen, NULL, Screen, NULL);
-	cout << "SDL_UpdateRect()" << endl;
-	SDL_UpdateRect(Screen, 0, 0, config.width, config.height); // did crash
-	cout << "SDL_GL_SwapBuffers()" << endl;
 	SDL_GL_SwapBuffers();
+
+	glDeleteTextures( 1, &texture);
 	
 	cout <<"--- Creating World ---" << endl;
 	World *myWorld = new World(L);
@@ -281,7 +301,6 @@ int main(int argc, char *argv[])
 	cout << "--- World created! ---" << endl;
 	cout << "-----------------------------------------------------------------";
 	cout << endl;
-	SDL_FreeSurface(SplashScreen);
 
 	ReshapeGL(config.width, config.height, myWorld->GetDepth());
 	srand(SDL_GetTicks());
