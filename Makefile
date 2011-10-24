@@ -8,7 +8,6 @@ LIBS = lua sdl gl glu
 BIN  = gl_terrain
 LOGS = ReadBMP.log Terrain.log
 CXXFLAGS += `pkg-config --cflags --libs $(LIBS)` $(CXXINCS)   -fexpensive-optimizations -O3 -std=c++0x
-CFLAGS += `pkg-config --cflags --libs $(LIBS)` -I/usr/include -Dmain=SDL_main   -fexpensive-optimizations -O3
 RM = rm -f
 
 .PHONY: all all-before all-after clean clean-custom
