@@ -13,15 +13,8 @@
 #include <GL/gl.h>
 
 #include "Terrain.hpp"
-#include "IObject.hpp"
-#include "Object.hpp"
-#include "Particle.hpp"
-#include "Cube.hpp"
-#include "sphere.hpp"
 
-
-class Sphere;
-class Cube;
+class IObject;
 
 class World
 {
@@ -53,12 +46,8 @@ public:
 
 private:
    lua_State *L;
-   std::vector<Hmap *> hmap; // an array of maps
    std::vector<zTerrain *>terrain;
    std::vector<IObject *> objects; // array of objects
-//   std::vector<Cube *> cubes; // array of cubes
-   std::vector<Particle *> particles; // array of particles
-//   std::vector<Sphere *> spheres; // array of particles
    
    Angle angle;
    Pos oldpos;

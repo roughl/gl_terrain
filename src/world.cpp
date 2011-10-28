@@ -44,11 +44,6 @@ World::World(lua_State *luaState):
 
 World::~World()
 {
-    for(;hmap.size();)
-    {
-        delete hmap[hmap.size()-1];
-        hmap.pop_back();
-    }
     for(;terrain.size();)
     {
         delete terrain[terrain.size()-1];
@@ -58,11 +53,6 @@ World::~World()
     {
         delete objects[objects.size()-1];
         objects.pop_back();
-    }
-    for(;particles.size();)
-    {
-        delete particles[particles.size()-1];
-        particles.pop_back();
     }
 }
 
@@ -253,14 +243,6 @@ void World::Update (Uint32  milliseconds, Uint8 *keystate)								// Perform Mot
     {
         (*obj)->Update(milliseconds, keystate);
     }
-    std::vector<Particle *>::iterator partsit;
-    for(partsit=particles.begin(); partsit<particles.end(); partsit++)
-    {
-        (*partsit)->Update(milliseconds, keystate);
-    }
-    
-
-
     
    // cout << "Calculating ypos" << endl;
     float mapheight, futmapheight;//deltax=pos.x-oldpos.x, deltaz=pos.z-oldpos.z;
@@ -378,12 +360,6 @@ void World::DrawChildren(void)
     for(terrainIt=terrain.begin(); terrainIt<terrain.end(); terrainIt++)
     {
         (*terrainIt)->Draw();
-    }
-    
-    std::vector<Particle *>::iterator partsIt;
-    for(partsIt=particles.begin(); partsIt<particles.end(); partsIt++)
-    {
-        (*partsIt)->Draw();
     }
     
     vector<IObject *>::iterator it;
