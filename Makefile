@@ -5,13 +5,13 @@ OBJ  = src/main.o src/OpenGL.o src/Terrain.o src/HMapReader.o src/LuaFuncs.o src
 LIBS = lua sdl gl glu
 BIN  = gl_terrain
 LOGS = ReadBMP.log Terrain.log
-CXXFLAGS += `pkg-config --cflags --libs $(LIBS)` $(CXXINCS) -fexpensive-optimizations -O0 -g -std=c++0x
+CXXFLAGS = `pkg-config --cflags --libs $(LIBS)` -fexpensive-optimizations -O3 -Wall
+DEBUGFLAGS =`pkg-config --cflags --libs $(LIBS)` -O0 -g -Wall
 RM = rm -f
 
 .PHONY: all all-before all-after clean clean-custom
 
 all: all-before gl_terrain all-after
-
 
 clean: clean-custom
 	${RM} $(OBJ) $(BIN) $(LOGS)
