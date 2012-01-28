@@ -23,21 +23,19 @@ using namespace std;
 
 
 zTerrain::zTerrain(lua_State *L, World *world)
-  :motherWorld(world)
-  ,height(0)
-  ,width(0)
+	:L(L)
+	,anglex(0.0f)
+	,angley(0.0f)
+	,anglez(0.0f)
+	,motherWorld(world)
+	,width(0)
+	,height(0)
 {
-	this->L=L;
-	
-	anglex=0.0f;
-	angley=0.0f;
-	anglez=0.0f;
-	
 	bool ok=false;
 	waterlevel = (float)lua_GetNumber(L, "waterlevel", &ok);
 	if(!ok)
 		waterlevel=1.0f;
-	maxFontains= (unsigned int)lua_GetNumber(L, "maxFontains", &ok);
+	maxFontains= (Uint32)lua_GetNumber(L, "maxFontains", &ok);
 	if(!ok)
 		maxFontains=10;
 }
@@ -174,7 +172,6 @@ bool zTerrain::Create(const char* Map)
 	srand(SDL_GetTicks());
 	
 	std::vector<int> ParticlePlaces;
-	unsigned int numPoints=(height)*(width)*4;
 	for (int z=0; z < (height)*(width); z++) {
 		for (int cnt=0; cnt<4; cnt++) {
 			GLfloat red=0.0f, green=1.0f, blue=0.0f;
@@ -241,7 +238,7 @@ bool zTerrain::Create(const char* Map)
 		unsigned texture=LoadAlphaTexture("Data/test_alpha.bmp");		
 	   Uint32 numFontains = rand()%(maxFontains+1);
 	   logTerrain << "Creating " << numFontains << " Fontains" << endl;
-	   for(int cnt=0; cnt <numFontains; cnt++)
+	   for(Uint32 cnt=0; cnt <numFontains; cnt++)
 	   {
 			int num=ParticlePlaces[rand()%ParticlePlaces.size()];
 			float x=aterr[num].x,y=aterr[num].y,z=aterr[num].z;
@@ -285,8 +282,8 @@ float zTerrain::GetMapY(float x, float z)
  //   cout << "GetMapY für " <<x <<" / " << z <<endl;
 	if(x<0.0f || z<0.0f || x>width || z>height) // out of map?
 		return -1.0f;
-	int x1=(int)floor(x), z1=(int)floor(z), x2=(int)ceil(z), z2=(int)ceil(z);
-	float y1 = GetMapY(x1,z1), y2=GetMapY(x2,z1), y3=GetMapY(x1,z2), y4=GetMapY(x2,z2);
+	//int x1=(int)floor(x), z1=(int)floor(z), x2=(int)ceil(z), z2=(int)ceil(z);
+	//float y1 = GetMapY(x1,z1), y2=GetMapY(x2,z1), y3=GetMapY(x1,z2), y4=GetMapY(x2,z2);
 	return (float)aheightmap[ind((int)round(x), (int)round(z),width)] / 25.5f; 
 }
 

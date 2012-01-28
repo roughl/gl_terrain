@@ -43,11 +43,8 @@ void terminate(int code)
 
 int main(int argc, char *argv[])
 {
-	SDL_Surface *Screen;
 	SDL_Event event;
 	Config config;
-	// Information about the current video settings.
-	const SDL_VideoInfo* info = NULL;
 
 	// process std command Line Options
 	for(int i=1; i<argc; i++)
@@ -257,21 +254,21 @@ int main(int argc, char *argv[])
 		terminate(1);
 	}
 	GLfloat vertices[4][2] = {
-	   -1.0, -1.0, // Bottom Left
-	   +1.0, -1.0, // Bottom Right
-	   +1.0, +1.0, // Top Right
-	   -1.0, +1.0, // Top Left
+		{-1.0, -1.0}, // Bottom Left
+		{+1.0, -1.0}, // Bottom Right
+		{+1.0, +1.0}, // Top Right
+		{-1.0, +1.0}, // Top Left
 	};
 	GLint texcoords[4][2] = {
-		0,1, // Top Left
-		1,1, // Top Right
-		1,0, // Bottom Right
-		0,0, // Bottom Left
+		{0,1}, // Top Left
+		{1,1}, // Top Right
+		{1,0}, // Bottom Right
+		{0,0}, // Bottom Left
 	};
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);		// Clear Screen And Depth Buffer
 	glTranslatef (0,0,-1);	// Translate to Cam Pos
-    glEnable(GL_TEXTURE_2D);// Texture Mapping aktivieren
-    glBindTexture(GL_TEXTURE_2D, texture);    
+	glEnable(GL_TEXTURE_2D);// Texture Mapping aktivieren
+	glBindTexture(GL_TEXTURE_2D, texture);    
 
 	glEnableClientState( GL_VERTEX_ARRAY );
 	glEnableClientState( GL_TEXTURE_COORD_ARRAY );
@@ -311,7 +308,6 @@ int main(int argc, char *argv[])
 	for(int done = 0; !done;)
 	{
 		Uint32 Time=SDL_GetTicks();
-
 		Uint8 *keyState;
 		keyState=SDL_GetKeyState(NULL);
 		if(SDL_PollEvent(&event))
@@ -343,7 +339,8 @@ int main(int argc, char *argv[])
 			case SDL_MOUSEMOTION:
 				myWorld->Update(&event.motion);
 				break;
-
+			default:
+				break;
 			};
 		}
 		Uint32 diff = Time-OldTime;
