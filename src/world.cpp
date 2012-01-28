@@ -14,32 +14,26 @@
 
 using namespace std;
 
-World::World(lua_State *luaState):
-	L(luaState),
-	oldpos(64.0f, 64.0f, 25.0f),
-	pos(oldpos),
-	angle(0,0,0)
+World::World(lua_State *luaState)
+	:L(luaState)
+	,angle(0,0,0)
+	,oldpos(64.0f, 64.0f, 25.0f)
+	,pos(oldpos)
+	,posyoffset(0.0f)
+	,zspeed(0.05f)
+	,xspeed(0.05f)
+	,yspeed(0.0f)
+	,turnspeed(0.1f)
+    ,mousespeed(0.5f)
+    ,maxheight(2.0f)
+    ,gravity(2.0f)
+    ,waterlevel(1.0f)
+    ,jumpvelocity(0.1f)
+	,drawtop(true)
+	,drawbuttom(true)
+	,drawright(true)
+	,drawleft(true)
 {
-    posyoffset=0.0f;
-    
-    
-    zspeed=0.05f;
-    xspeed=0.05f;
-    yspeed=0.0f;
-    
-    turnspeed=0.1f;
-    mousespeed=0.5f;
-    gravity=2.0f;
-    maxheight=2.0f;
-    
-    jumpvelocity=0.1f;
-    
-    waterlevel=1.0f;
-
-    drawtop=false;
-    drawbuttom=false;
-    drawleft=false;
-    drawright=false;
 }
 
 World::~World()
@@ -156,6 +150,8 @@ void World::Update (SDL_KeyboardEvent *keyevent)
         {
         }
         break;
+	default:
+		break;
     }
 }
 

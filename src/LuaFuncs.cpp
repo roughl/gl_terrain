@@ -49,27 +49,28 @@ double lua_GetNumber(lua_State *L, const char *name, bool *ok)
 
 int lua_GetGlobal(lua_State *L, const char *name, int type, void *destination)
 {
-    lua_getglobal(L, name);
-    switch( type )
-    {
-    case LUA_TNUMBER:
-        *(double *)destination=lua_tonumber(L, -1);
-        return 1;
-    case LUA_TBOOLEAN:
-        *(bool *)destination=lua_toboolean(L, -1);
-        return 1;
-    case LUA_TSTRING:
-        destination = (void *) lua_tostring(L, -1);
-        return 1;
-    case LUA_TNONE:
-    case LUA_TTABLE:
-    case LUA_TFUNCTION:
-    case LUA_TUSERDATA:
-    case LUA_TTHREAD:
-    case LUA_TLIGHTUSERDATA:
-    case LUA_TNIL:
-        return 0;
-    }
+	lua_getglobal(L, name);
+	switch( type )
+	{
+	case LUA_TNUMBER:
+		*(double *)destination=lua_tonumber(L, -1);
+		return 1;
+	case LUA_TBOOLEAN:
+		*(bool *)destination=lua_toboolean(L, -1);
+		return 1;
+	case LUA_TSTRING:
+		destination = (void *) lua_tostring(L, -1);
+		return 1;
+	case LUA_TNONE:
+	case LUA_TTABLE:
+	case LUA_TFUNCTION:
+	case LUA_TUSERDATA:
+	case LUA_TTHREAD:
+	case LUA_TLIGHTUSERDATA:
+	case LUA_TNIL:
+	default:
+		return 0;
+	}
 }
 
 

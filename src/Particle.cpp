@@ -60,11 +60,10 @@ const float Part::colorsBlueWhite[12][3]=
 }; 
 
 Part::Part(Particle *group)
-    :   partGroup(group),
-        visible(true)
+	:life(1.0f) // Give All The Particles Full Life
+	,partGroup(group)
+	,visible(true)
 {
-	life=1.0f; // Give All The Particles Full Life
-
 	fade=( (float)rand()/RAND_MAX +0.05f)/100.0f; // Random Fade Speed
 
 	r=colors[rand()%12][0]; // Select Red Rainbow Color
@@ -84,16 +83,16 @@ Part::Part(Particle *group)
 	zacc=0.0f;           // Set Pull On Z Axis To Zero
 
 	GLfloat vertices[4][2] = {
-	   -0.2f,+0.2f, // Top Left
-	   +0.2f,+0.2f, // Top Right
-	   -0.2f,-0.2f, // Bottom Left
-	   +0.2f,-0.2f, // Bottom Right
+		{-0.2f,+0.2f}, // Top Left
+		{+0.2f,+0.2f}, // Top Right
+		{-0.2f,-0.2f}, // Bottom Left
+		{+0.2f,-0.2f}, // Bottom Right
 	};
 	GLint texcoords[4][2] = {
-		0,1,
-		1,1,
-		0,0,
-		1,0,
+		{0,1},
+		{1,1},
+		{0,0},
+		{1,0},
 	};
 
    dispList=glGenLists(1);

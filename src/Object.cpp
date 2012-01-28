@@ -9,12 +9,12 @@
 
 using namespace std;
 
-Object::Object(World *world):
-    motherWorld(world),
-    visible(true),
-	dispList(0),
-	pos(0,0,0),
-	angle(0,0,0)
+Object::Object(World *world)
+    :visible(true)
+	,pos(0,0,0)
+	,angle(0,0,0)
+	,dispList(0)
+    ,motherWorld(world)
 {
 }
 

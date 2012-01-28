@@ -30,16 +30,16 @@ public:
     void setAngleY(float angle){angley=angle;}
     
 private:
-	float	life;					// Particle Life
-	float	fade;					// Fade Speed
-    Particle *partGroup;
-    float xpos, ypos, zpos;         // positions
-    float anglex, angley;
-    float r,g,b;                    // colors
-    float xspeed, yspeed, zspeed;   // speed
-    float xacc, yacc, zacc;       
-    GLuint dispList;
-    bool visible;
+	float life;                     // Particle Life
+	float fade;                     // Fade Speed
+	Particle *partGroup;
+	float xpos, ypos, zpos;         // positions
+	float anglex, angley;
+	float r,g,b;                    // colors
+	float xspeed, yspeed, zspeed;   // speed
+	float xacc, yacc, zacc;       
+	GLuint dispList;
+	bool visible;
 };
 
 

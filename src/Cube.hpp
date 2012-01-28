@@ -9,7 +9,7 @@ class Cube : public Object
 {
 public:
 	Cube(World *world=NULL);
-	Uint8 Create(float posx, float posy, float posz, float size);
+	void Create(float posx, float posy, float posz, float size);
 	void Update(Uint32 milliseconds, Uint8 *keystate);
 private:
 	float speedx, speedy, speedz;

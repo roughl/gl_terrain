@@ -19,7 +19,7 @@ Cube::Cube(World *world):
 }
 
 
-Uint8 Cube::Create(float posx, float posy, float posz, float newsize=2.0f)
+void Cube::Create(float posx, float posy, float posz, float newsize=2.0f)
 {
 	static const int n = 6*4;
 	this->size=newsize;
@@ -36,69 +36,69 @@ Uint8 Cube::Create(float posx, float posy, float posz, float newsize=2.0f)
 	glNewList(dispList,GL_COMPILE);
 
 	GLfloat vertices[n][3] = {
-	 // Bottom
-	 -size, -size, -size,
-	  size, -size, -size,
-	  size, -size,  size,
-	 -size, -size,  size,
+	// Bottom
+		{-size, -size, -size},
+		{size, -size, -size},
+		{size, -size,  size},
+		{-size, -size,  size},
 	
 	// Top
-	-size,  size, -size,
-	-size,  size,  size,
-	 size,  size,  size,
-	 size,  size, -size,
+		{-size,  size, -size},
+		{-size,  size,  size},
+		{ size,  size,  size},
+		{ size,  size, -size},
 	
-	-size,  size, -size,
-	 size,  size, -size,
-	 size, -size, -size,
-	-size, -size, -size,
+		{-size,  size, -size},
+		{ size,  size, -size},
+		{ size, -size, -size},
+		{-size, -size, -size},
 
-	 size, -size, -size,
-	 size,  size, -size,
-	 size,  size,  size,
-	 size, -size,  size,
+		{ size, -size, -size},
+		{ size,  size, -size},
+		{ size,  size,  size},
+		{ size, -size,  size},
 
-	 size, -size,  size,
-	 size,  size,  size,
-	-size,  size,  size,
-	-size, -size,  size,
-		
-	-size, -size,  size,
-	-size,  size,  size,
-	-size,  size, -size,
-	-size, -size, -size
+		{ size, -size,  size},
+		{ size,  size,  size},
+		{-size,  size,  size},
+		{-size, -size,  size},
+
+		{-size, -size,  size},
+		{-size,  size,  size},
+		{-size,  size, -size},
+		{-size, -size, -size}
 	};
 
 	GLfloat colors[n][3] = {
-	0.0f, 0.0f, 1.0f,
-	0.0f, 0.0f, 1.0f,
-	0.0f, 0.0f, 1.0f,
-	0.0f, 0.0f, 1.0f,
+		{0.0f, 0.0f, 1.0f},
+		{0.0f, 0.0f, 1.0f},
+		{0.0f, 0.0f, 1.0f},
+		{0.0f, 0.0f, 1.0f},
 	
-	1.0f, 0.0f, 0.0f,
-	1.0f, 0.0f, 0.0f,
-	1.0f, 0.0f, 0.0f,
-	1.0f, 0.0f, 0.0f,
+		{1.0f, 0.0f, 0.0f},
+		{1.0f, 0.0f, 0.0f},
+		{1.0f, 0.0f, 0.0f},
+		{1.0f, 0.0f, 0.0f},
 
-	1.0f, 0.0f, 0.0f,
-	1.0f, 0.0f, 0.0f,
-	0.0f, 0.0f, 1.0f,
-	0.0f, 0.0f, 1.0f,
+		{1.0f, 0.0f, 0.0f},
+		{1.0f, 0.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f},
+		{0.0f, 0.0f, 1.0f},
 	
-	0.0f, 0.0f, 1.0f,
-	1.0f, 0.0f, 0.0f,
-	1.0f, 0.0f, 0.0f,
-	0.0f, 0.0f, 1.0f,
+		{0.0f, 0.0f, 1.0f},
+		{1.0f, 0.0f, 0.0f},
+		{1.0f, 0.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f},
 
-	0.0f, 0.0f, 1.0f,
-	1.0f, 0.0f, 0.0f,
-	1.0f, 0.0f, 0.0f,
-	0.0f, 0.0f, 1.0f,
+		{0.0f, 0.0f, 1.0f},
+		{1.0f, 0.0f, 0.0f},
+		{1.0f, 0.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f},
 
-	0.0f, 0.0f, 1.0f,
-	1.0f, 0.0f, 0.0f,
-	1.0f, 0.0f, 0.0f,
-	0.0f, 0.0f, 1.0f,
+		{0.0f, 0.0f, 1.0f},
+		{1.0f, 0.0f, 0.0f},
+		{1.0f, 0.0f, 0.0f},
+		{0.0f, 0.0f, 1.0f},
 	};
 
 	GLfloat normals[n][3] = { };
@@ -143,16 +143,13 @@ void Cube::Update(Uint32 milliseconds, Uint8 *keystate)
 		
 	// calculate distance to viewer
 	// sqrt((-camx+partx)^2+(-camz+partz)^2)
-	float distance;
 	Pos mypos(pos.x, pos.y, pos.z);
 	Pos worldpos(0,0,0);
 	#ifdef __DEBUG__
 	std::cout << "GetCamPos\n";
 	motherWorld->GetCamPos(&worldpos);
 	std::cout << "getDistance\n";
-	distance=vec::getDistance(&worldpos, &mypos);
-	#endif
-	/*
+	float distance=vec::getDistance(&worldpos, &mypos);
 	if(distance-size > (float)motherWorld->GetDepth())
 	{
 		visible=false;
@@ -163,7 +160,6 @@ void Cube::Update(Uint32 milliseconds, Uint8 *keystate)
 		visible=true;
 		std::cout << "Cube is visible\n";
 	}
-		*/
-	
+	#endif
 }
 

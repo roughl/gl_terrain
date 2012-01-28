@@ -9,13 +9,13 @@
 #include "VectorCalc.hpp"
 #include "World.hpp"
 
-Sphere::Sphere(World *world):
-	Object(),
-	quadratic(NULL),
-	speedx(0),
-	speedy(0),
-	speedz(0),
-	size(0)
+Sphere::Sphere(World *world)
+	:Object()
+	,speedx(0)
+	,speedy(0)
+	,speedz(0)
+	,size(0)
+	,quadratic(NULL)
 {
 }
 

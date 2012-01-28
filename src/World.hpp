@@ -60,11 +60,6 @@ private:
    
    float jumpvelocity; // velocity when you jump
    
-   bool jumping;    // is player jumping?
-   Uint32 jumptime; // how long will he be jumping
-   Uint32 maxjumptime; // jumptime
-   
- //  Uint32 maxFontains;
    bool drawtop, drawbuttom, drawright, drawleft;
 };
 
