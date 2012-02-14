@@ -8,8 +8,12 @@ AC_CONFIG_SRCDIR([config.h.in])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
+AC_PROG_AWK
 AC_PROG_CXX
 AC_PROG_CC
+AC_PROG_INSTALL
+AC_PROG_LN_S
+AC_PROG_MAKE_SET
 
 # Checks for libraries.
 PKG_CHECK_MODULES([DEPS], [lua >= 5.0.0 sdl >= 1.2.0 gl >= 1.0.0 glu >= 1.0.0])
