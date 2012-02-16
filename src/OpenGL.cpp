@@ -141,7 +141,7 @@ bool InitializeGL ( )					// Any GL Init Code & User Initialiazation Goes Here
 	// Start Of User Initialization
 
 	glClearColor (0.5f, 0.5f, 0.5f, 0.0f);						 // Dark Background
-	glClearDepth (2.0f);										 // Depth Buffer Setup
+	glClearDepth (1.0f);										 // Depth Buffer Setup
 	glDepthFunc (GL_LEQUAL);									 // The Type Of Depth Testing (Less Or Equal)
 	glEnable (GL_DEPTH_TEST);								 	 // Enable Depth Testing
 	glShadeModel (GL_SMOOTH);									 // Select Shading GL_FLAT or GL_SMOOTH
