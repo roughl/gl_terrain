@@ -1,6 +1,16 @@
 *.o
 *.log
 *.swp
-gl_terrain
+glterrain
 Lua/myconfig.lua
 tags
+Makefile
+Makefile.in
+config*
+install-sh
+missing
+depcomp
+aclocal.m4
+autom4te.cache
+src/.deps/
+stamp-h1
