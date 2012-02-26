@@ -40,6 +40,23 @@ void terminate(int code)
 	exit(code);
 }
 
+Uint32 initSDL(Config conf)
+{
+	if(SDL_Init(SDL_INIT_VIDEO)<0)
+	{
+		cerr << "Couldn't initialize SDL: \n" << SDL_GetError() << endl;
+		terminate(1);
+	}
+	cout << "SDL Video Initialized"<< endl;
+	Uint32 flags=0;
+	flags |= SDL_OPENGL | SDL_HWSURFACE;
+	if(conf.fullscreen)
+		flags |= SDL_FULLSCREEN;
+	else
+		flags |= SDL_RESIZABLE;
+	return flags;
+}
+
 int main(int argc, char *argv[])
 {
 	SDL_Event event;
@@ -104,68 +121,38 @@ int main(int argc, char *argv[])
 		cout << "Error while initialising Lua" << endl;
 		terminate(1);
 	}
+	
+	config.configFilename=configArg.getValue().c_str();
+	// apply specified config file
+	cout << "Read specified config file" <<endl;
+	if( !init_lua(L, config.configFilename) )
+	{
+		cout << "Warning: reading config file " << config.configFilename << " failed" << endl;
+	}
+	cout << "Applying configuration" <<endl;
+	if(lua_LoadConfig(L, &config))
+	{
+		cout << "Error while initialising Lua" << endl;
+		terminate(1);
+	}
+	if(terrainArg.getValue() != "" ) {
+		config.TerrainFilename=terrainArg.getValue().c_str();
+	}
+
+	// apply flags
+	if(fullscreenArg.getValue()) {
+		config.fullscreen = true;
+	}
+	if(noFullscreenArg.getValue()) {
+		config.fullscreen = false;
+	}
 
 	cout << "Reading command Line Options" <<endl;
 	for(int i=1; i<argc; i++)
 	{
 		string arg(argv[i]);
 
-		if(arg.compare("--fullscreen")==0)
-		{
-			config.fullscreen=true;
-		}
-		else if(arg.compare("--nofullscreen")==0)
-		{
-			config.fullscreen=false;
-		}
-		else if(arg.compare("--config")==0)
-		{
-			i++;
-			if(i>=argc)
-			{
-				cerr << "no Parameter for --config" << endl;
-				return 1;
-			}
-			ifstream configFile ( argv[i] , ifstream::in );
-			// is it possible to open file for reading?
-			if(configFile.fail())
-			{
-				cerr << "failed to open config file " << argv[i] <<endl;
-				return 1;
-			}
-			config.configFilename=argv[i];
-			configFile.close();
-			cout << "Read specified config file" <<endl;
-			if( !init_lua(L, config.configFilename) )
-			{
-				cout << "Warning: reading config file " << config.configFilename << " failed" << endl;
-			}
-			cout << "Applying configuration" <<endl;
-			if(lua_LoadConfig(L, &config))
-			{
-				cout << "Error while initialising Lua" << endl;
-				terminate(1);
-			}
-		}
-		else if(arg.compare("--terrain")==0)
-		{
-			i++;
-			if(i>argc)
-			{
-				cerr << "invalid Parameter for --terrain" << endl;
-				return 1;
-			}
-			ifstream terrainFile ( argv[i], ifstream::in );
-			// is it possible to open file for reading?
-			if(terrainFile.fail())
-			{
-				cerr << "invalid Parameter for --terrain" << endl;
-				return 1;
-			}
-			config.TerrainFilename=argv[i];
-			terrainFile.close();
-		}
-		else if(arg.find("--res")!=string::npos)
+		if(arg.find("--res")!=string::npos)
 		{
 			i++;
 			if(i>=argc)
@@ -188,22 +175,10 @@ int main(int argc, char *argv[])
 		else if(arg.compare("--videoinfo")==0)
 		{
 			//cout << "Entering videoinfo" << endl;
-			if(SDL_Init(SDL_INIT_VIDEO)<0)
-			{
-				cerr << "Couldn't initialize SDL: \n" << SDL_GetError() << endl;
-				terminate(1);
-			}
-			cout << "SDL Video Initialized"<< endl;
-			SDL_Rect **modes;
-			Uint32 flags=0;
-			flags |= SDL_OPENGL | SDL_HWSURFACE;
-			if(config.fullscreen)
-				flags |= SDL_FULLSCREEN;
-			else
-				flags |= SDL_RESIZABLE;
+			Uint32 flags = initSDL(config);
 			/* Get available fullscreen/hardware modes */
 			cout << "Call SDL_ListModes(NULL, " << flags << ")" << endl;
-			modes=SDL_ListModes(NULL, flags);
+			SDL_Rect **modes=SDL_ListModes(NULL, flags);
 			cout << "checking..." << endl;
 			
 			/* Check if there are any modes available */
@@ -223,29 +198,10 @@ int main(int argc, char *argv[])
 					cout << "  " << modes[cnt]->w << "x" << modes[cnt]->h << endl;
 			}
 			return 0;
-
 		}
-		else
-		{
-			cerr << "unknown Option \"" << argv[i] << "\" " << HELP;
-			return 1; 
-		}
-
 	}
 
-
-	if(SDL_Init(SDL_INIT_VIDEO)<0)
-	{
-		cerr << "Couldn't initialize SDL: \n" << SDL_GetError() << endl;
-		terminate(1);
-	}
-	cout << "SDL Video Initialized"<< endl;
-	Uint32 flags=0;
-	flags = SDL_OPENGL | SDL_HWSURFACE;
-	if(config.fullscreen)
-		flags |= SDL_FULLSCREEN;
-	else
-		flags |= SDL_RESIZABLE;
+	Uint32 flags = initSDL(config);
 
 	SDL_GL_SetAttribute( SDL_GL_RED_SIZE, 5 );     // In order to use SDL_OPENGLBLIT we have to
 	SDL_GL_SetAttribute( SDL_GL_GREEN_SIZE, 5 );   // set GL attributes first
