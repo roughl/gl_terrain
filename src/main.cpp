@@ -126,6 +126,7 @@ int main(int argc, char *argv[])
 	}
 
 	// apply flags
+	cout << "Applying command Line Options" <<endl;
 	if(fullscreenArg.getValue()) {
 		config.fullscreen = true;
 	}
@@ -159,33 +160,16 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 
-	//if(resolutionArg.getValue()
-
-	cout << "Reading command Line Options" <<endl;
-	for(int i=1; i<argc; i++)
-	{
-		string arg(argv[i]);
-
-		if(arg.find("--res")!=string::npos)
+	if(resolutionArg.getValue() != "") {
+		int width, height;
+		if(sscanf(resolutionArg.getValue().c_str(), "%ix%i", &width, &height)<2)
 		{
-			i++;
-			if(i>=argc)
-			{
-				cerr << "Parameter for --resolution needed"<< endl;
-				cerr << "usage "  << "--resolution WIDTHxHEIGHT" <<endl;
-				return 1;
-			}
-			string param(argv[i]);
-			int width, height;
-			if(sscanf(argv[i], "%ix%i", &width, &height)<2)
-			{
-				cerr << "invalid Parameter for --resolution " << argv[i] <<endl;
-				cerr << "usage " << "--resolution WIDTHxHEIGHT" <<endl;
-				return 1;
-			}
-			config.width=width;
-			config.height=height;
+			cerr << "invalid Parameter for --resolution " << resolutionArg.getValue()<<endl;
+			cerr << "usage " << "--resolution WIDTHxHEIGHT" <<endl;
+			return 1;
 		}
+		config.width=width;
+		config.height=height;
 	}
 
 	Uint32 flags = initSDL(config);
