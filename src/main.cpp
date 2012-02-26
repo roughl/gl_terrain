@@ -18,19 +18,6 @@
 #include "HMapReader.hpp"
 #include "World.hpp"
 
-static const char *HELP="\
-\nusage: Tut6Terrain.exe [Options] \
-\n--help                                show this help and exit\
-\n--version                             show version information and exit\
-\n--fullscreen                          start in fullscreen mode\
-\n--nofullscreen                        start in windowed mode\
-\n--config $FILENAME                    use specified configuration file instead\
-\n                                      of the default one\
-\n--terrain $FILENAME                   use specified terrain file instead\
-\n                                      of the one specified in configuration file\
-\n--resolution, --res $WIDEx$HEIGHT     use specified resolution\n";
-
-
 using namespace std;
 
 void terminate(int code)
@@ -48,8 +35,7 @@ Uint32 initSDL(Config conf)
 		terminate(1);
 	}
 	cout << "SDL Video Initialized"<< endl;
-	Uint32 flags=0;
-	flags |= SDL_OPENGL | SDL_HWSURFACE;
+	Uint32 flags = SDL_OPENGL | SDL_HWSURFACE;
 	if(conf.fullscreen)
 		flags |= SDL_FULLSCREEN;
 	else
@@ -147,6 +133,34 @@ int main(int argc, char *argv[])
 		config.fullscreen = false;
 	}
 
+	if(videoinfoArg.getValue()) {
+		Uint32 flags = initSDL(config);
+		/* Get available fullscreen/hardware modes */
+		cout << "Call SDL_ListModes(NULL, " << flags << ")" << endl;
+		SDL_Rect **modes=SDL_ListModes(NULL, flags);
+		cout << "checking..." << endl;
+		
+		/* Check if there are any modes available */
+		if(modes == (SDL_Rect **)0){
+			cout <<"No modes available!" << endl;
+			terminate(-1);
+		}
+		/* Check if or resolution is restricted */
+		if(modes == (SDL_Rect **)-1){
+			cout << "All resolutions available." << endl;
+		}
+		else{
+			/* Print valid modes */
+			cout << "Available Modes:" << endl;
+			int cnt;
+			for(cnt=0;modes[cnt];++cnt)
+				cout << "  " << modes[cnt]->w << "x" << modes[cnt]->h << endl;
+		}
+		return 0;
+	}
+
+	//if(resolutionArg.getValue()
+
 	cout << "Reading command Line Options" <<endl;
 	for(int i=1; i<argc; i++)
 	{
@@ -171,33 +185,6 @@ int main(int argc, char *argv[])
 			}
 			config.width=width;
 			config.height=height;
-		}
-		else if(arg.compare("--videoinfo")==0)
-		{
-			//cout << "Entering videoinfo" << endl;
-			Uint32 flags = initSDL(config);
-			/* Get available fullscreen/hardware modes */
-			cout << "Call SDL_ListModes(NULL, " << flags << ")" << endl;
-			SDL_Rect **modes=SDL_ListModes(NULL, flags);
-			cout << "checking..." << endl;
-			
-			/* Check if there are any modes available */
-			if(modes == (SDL_Rect **)0){
-				cout <<"No modes available!" << endl;
-				terminate(-1);
-			}
-			/* Check if or resolution is restricted */
-			if(modes == (SDL_Rect **)-1){
-				cout << "All resolutions available." << endl;
-			}
-			else{
-				/* Print valid modes */
-				cout << "Available Modes:" << endl;
-				int cnt;
-				for(cnt=0;modes[cnt];++cnt)
-					cout << "  " << modes[cnt]->w << "x" << modes[cnt]->h << endl;
-			}
-			return 0;
 		}
 	}
 
