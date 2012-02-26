@@ -16,10 +16,10 @@ AC_PROG_MAKE_SET
 AC_LANG([C++])
 
 # Checks for libraries.
-PKG_CHECK_MODULES([DEPS], [lua >= 5.0.0 sdl >= 1.2.0 gl >= 1.0.0 glu >= 1.0.0])
+PKG_CHECK_MODULES([DEPS], [lua >= 5.0.0 sdl >= 1.2.0 gl >= 1.0.0 glu >= 1.0.0 tclap])
 
 # Checks for header files.
-AC_CHECK_HEADERS([stdlib.h unistd.h])
+AC_CHECK_HEADERS([stdlib.h unistd.h tclap/CmdLine.h sstream])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_HEADER_STDBOOL

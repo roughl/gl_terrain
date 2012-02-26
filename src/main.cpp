@@ -1,13 +1,14 @@
 #include <cstdlib>
-
 #include <iostream>
-
 #include <unistd.h>
 
 #include <SDL/SDL.h>
 #include <GL/gl.h>
 
 #include <lua.hpp>
+#include <tclap/CmdLine.h>
+
+#include "config.h"
 #include "main.h"
 #include "LuaFuncs.h"
 
@@ -16,8 +17,6 @@
 
 #include "HMapReader.hpp"
 #include "World.hpp"
-
-static const char *VERSION="Tut6Terrain V0.1.1\nby Raphael Nestler\n";
 
 static const char *HELP="\
 \nusage: Tut6Terrain.exe [Options] \
@@ -46,22 +45,48 @@ int main(int argc, char *argv[])
 	SDL_Event event;
 	Config config;
 
-	// process std command Line Options
-	for(int i=1; i<argc; i++)
+	TCLAP::CmdLine cmd("OpenGL demo with terrain from bitmap files", ' ', VERSION );
+	TCLAP::SwitchArg fullscreenArg("f", "fullscreen", "Start in fullscreen mode", false );
+	TCLAP::SwitchArg noFullscreenArg("n", "nofullscreen", "Do not start in fullscreen mode", false );
+	TCLAP::ValueArg<string> configArg("c", "config", "Use specified configuration file instead of the default one", false, config.configFilename, "FILE");
+	TCLAP::ValueArg<string> terrainArg("t", "terrain", "Use specified terrain file instead of the one specified in configuration file", false, "", "FILE");
+	TCLAP::ValueArg<string> resolutionArg("r", "resolution", "Use specified resolution", false, "", "WIDTHxHEIGHT");
+	TCLAP::SwitchArg videoinfoArg("v", "videoinfo", "Get videoinfo from hardware", false);
+	cmd.add(fullscreenArg);
+	cmd.add(configArg);
+	cmd.add(terrainArg);
+	cmd.add(resolutionArg);
+	cmd.add(videoinfoArg);
+	try
 	{
-		string arg(argv[i]);
-		if(arg.compare("--help")==0)
+		cmd.parse(argc, argv);
+	}
+	catch (TCLAP::ArgException & e)
+	{
+		cerr << "Invalid option: " << e.argId() << "." << endl << e.error() << endl;
+		return 1;
+	}
+	
+	// validate if config files are readable
+	ifstream configFile ( configArg.getValue().c_str(), ifstream::in );
+	if(configFile.fail())
+	{
+		cerr << "failed to open config file " << configArg.getValue() <<endl;
+		return 1;
+	}
+	configFile.close();
+
+	if( terrainArg.getValue() != "" ) {
+		ifstream terrainFile ( terrainArg.getValue().c_str(), ifstream::in );
+		if(terrainFile.fail())
 		{
-			cout << VERSION << HELP;
-			return 0;
+			cerr << "failed to open terrain file " << terrainArg.getValue() << endl;
+			return 1;
 		}
-		else if(arg.compare("--version")==0)
-		{
-			cout << VERSION;
-			return 0;
-		}
+		terrainFile.close();
 	}
 
+	// read default config
 	lua_State *L = lua_open();
 	if( L == NULL )
 	{
