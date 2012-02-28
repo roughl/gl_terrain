@@ -7,7 +7,7 @@ map ="Data/Map6.bmp"
 --map ="Data/Map3.bmp"
 --map ="Data/TestGrey.bmp"
 --map ="Data/heightmap.raw"
-map ="Data/Test_Alpha.bmp"
+map ="Data/test_alpha.bmp"
 
 --map ="Data/LoadingScreen.bmp" -- don't do this, cause my prog has no error handling ;)
 
