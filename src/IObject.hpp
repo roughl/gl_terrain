@@ -15,7 +15,7 @@ struct Angle
 		y(y),
 		z(z)
 	{}
-    float x,y,z;
+	float x,y,z;
 };
 struct Pos
 {
@@ -24,18 +24,19 @@ struct Pos
 		y(y),
 		z(z)
 	{}
-    float x,y,z;
+	float x,y,z;
 };
 
 
 class IObject
 {
 public:
-    virtual void Draw() = 0; // Do Render
-    virtual void Update(Uint32 milliseconds, Uint8 *keystate) = 0; // per default do not any update
+	virtual ~IObject(){};
+	virtual void Draw() = 0; // Do Render
+	virtual void Update(Uint32 milliseconds, Uint8 *keystate) = 0; // per default do not any update
     
-    virtual const Pos& getPos() = 0;
-    virtual const Angle& getAngle() = 0;
+	virtual const Pos& getPos() = 0;
+	virtual const Angle& getAngle() = 0;
 };
 
 #endif // __IOBJECT_HPP

@@ -14,19 +14,20 @@ class World;
 class Object : public IObject
 {
 public:
-    Object(World *world=NULL);
-    virtual void Draw(); // Do Render
-    virtual void Update(Uint32 milliseconds, Uint8 *keystate){} // per default do not any update
-    
+	Object(World *world=NULL);
+	virtual ~Object();
+	virtual void Draw(); // Do Render
+	virtual void Update(Uint32 milliseconds, Uint8 *keystate){} // per default do not any update
+
   	const Pos &getPos(){return pos;}
   	const Angle &getAngle(){return angle;}
-    
+
 protected:
-    bool visible;
+	bool visible;
 	Pos pos;
 	Angle angle;
-    GLuint dispList;
-    World *motherWorld;
+	GLuint dispList;
+	World *motherWorld;
 };
 
 #endif // __OBJECT_HPP

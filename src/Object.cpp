@@ -18,6 +18,14 @@ Object::Object(World *world)
 {
 }
 
+Object::~Object()
+{
+	cout << "~Object()" << endl;
+	if(dispList) {
+		glDeleteLists(dispList,1);
+	}
+}
+
 
 void Object::Draw()
 {
