@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 	}
 
 	// read default config
-	lua_State *L = lua_open();
+	lua_State *L = luaL_newstate();
 	if( L == NULL )
 	{
 		cout << "Couldn't create lua_State" << endl;
